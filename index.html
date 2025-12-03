@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elit Erkek Kuaförü - Tarzını Yansıt</title>
+    <style>
+        /* GENEL AYARLAR */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER & MENÜ */
+        header {
+            background: #222;
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 85%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d4af37; /* Altın rengi */
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a:hover {
+            color: #d4af37;
+        }
+
+        /* HERO ALANI (ANA GÖRSEL) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #d4af37;
+            color: #222;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #b5952f;
+        }
+
+        /* HİZMETLER */
+        .services {
+            padding: 50px 0;
+            background: #fff;
+            text-align: center;
+        }
+
+        .services h2 {
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 85%;
+            margin: auto;
+        }
+
+        .service-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .service-card h3 {
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* İLETİŞİM */
+        .contact {
+            padding: 50px 0;
+            background: #222;
+            color: #fff;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111;
+            color: #777;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        /* MOBİL UYUMLULUK */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .container { flex-direction: column; }
+            nav ul { margin-top: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">ELİT KUAFÖR</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#services">Hizmetler</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Tarzını Bizimle Keşfet</h1>
+        <p>Profesyonel saç tasarımı ve sakal bakımı.</p>
+        <a href="#contact"><button class="btn">Randevu Al</button></a>
+    </section>
+
+    <section id="services" class="services">
+        <h2>Hizmetlerimiz</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Saç Kesimi</h3>
+                <p>Yüz tipinize en uygun modern saç kesimleri.</p>
+                <strong>300 TL</strong>
+            </div>
+            <div class="service-card">
+                <h3>Sakal Tasarımı</h3>
+                <p>Sıcak havlu ile geleneksel ve modern sakal tıraşı.</p>
+                <strong>150 TL</strong>
+            </div>
+            <div class="service-card">
+                <h3>Saç Bakımı & Boya</h3>
+                <p>Gri kapatma ve özel bakım kürleri.</p>
+                <strong>500 TL</strong>
+            </div>
+            <div class="service-card">
+                <h3>Damat Tıraşı</h3>
+                <p>En özel gününüz için VIP bakım paketi.</p>
+                <strong>1500 TL</strong>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>İletişim & Randevu</h2>
+        <p>Bizi arayın veya dükkanımızı ziyaret edin.</p>
+        
+        <div class="contact-info">
+            <div>
+                <h3>Adres</h3>
+                <p>Bağdat Caddesi No:123<br>Kadıköy, İstanbul</p>
+            </div>
+            <div>
+                <h3>Telefon</h3>
+                <p>+90 555 123 45 67</p>
+            </div>
+            <div>
+                <h3>Çalışma Saatleri</h3>
+                <p>Pzt - Cmt: 09:00 - 20:00<br>Pazar: Kapalı</p>
+            </div>
+        </div>
+        <br>
+        <a href="tel:+905551234567"><button class="btn">Hemen Ara</button></a>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Elit Kuaför. Tüm hakları saklıdır.</p>
+    </footer>
+
+</body>
+</html>
