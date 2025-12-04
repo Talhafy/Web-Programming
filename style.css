@@ -1,0 +1,96 @@
+/* 1. GENEL SIFIRLAMA (Her tarayıcıda aynı görünmesi için) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Kutuların boyutunu sabit tutar */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+}
+
+/* 2. SAYFA GENELİ */
+body {
+    background-color: #f4f4f4; /* Açık gri arka plan */
+    color: #333; /* Koyu gri yazı rengi (göz yormaz) */
+    line-height: 1.6; /* Satır aralığı */
+}
+
+/* 3. LİNKLER (Alt çizgiyi kaldırır) */
+a {
+    text-decoration: none;
+    color: inherit; /* Rengi ebeveyninden alır */
+}
+
+/* 4. ÜST MENÜ (Header) */
+header {
+    background-color: #222; /* Siyah arka plan */
+    color: #fff; /* Beyaz yazı */
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    color: #d4af37; /* Altın sarısı başlık */
+}
+
+/* 5. MENÜ LİSTESİ */
+nav ul {
+    list-style: none; /* Madde işaretlerini (noktaları) kaldırır */
+    margin-top: 10px;
+}
+
+nav ul li {
+    display: inline; /* Yan yana dizilmelerini sağlar */
+    margin: 0 15px; /* Öğeler arasına boşluk koyar */
+    font-weight: bold;
+}
+
+/* 6. ANA GÖRSEL ALANI (Hero) */
+.hero {
+    background-color: #333;
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+/* 7. BUTON TASARIMI */
+.btn {
+    background-color: #d4af37; /* Altın rengi buton */
+    color: #222;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px; /* Kenarları yuvarlar */
+    cursor: pointer; /* Üzerine gelince el işareti çıkar */
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #b5952f; /* Üzerine gelince renk koyulaşır */
+}
+
+/* 8. HİZMET KUTULARI (Grid Yapısı) */
+.services {
+    display: flex; /* Esnek kutu yapısı */
+    justify-content: center; /* Ortalar */
+    gap: 20px; /* Kutular arası boşluk */
+    padding: 50px;
+    flex-wrap: wrap; /* Sığmazsa alt satıra geçer */
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 250px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Hafif gölge */
+}
+
+/* 9. ALT BİLGİ (Footer) */
+footer {
+    background-color: #111;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
