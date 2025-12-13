@@ -1,0 +1,46 @@
+﻿@model FitnessSalonu.Models.AIResponse
+
+@{
+    ViewData["Title"] = "Size Özel Plan";
+}
+
+<div class="container mt-5">
+    <div class="alert alert-success text-center shadow-sm">
+        <h2>🎉 Planınız Hazırlandı!</h2>
+        <p>Vücut analizinize göre yapay zekanın önerileri aşağıdadır.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3 shadow h-100">
+                <div class="card-header fw-bold">📊 Vücut Analizi</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6">BMI: @Model.BMI</h5>
+                    <p class="card-text fs-5">Durum: <strong>@Model.BMISTatus</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3 shadow h-100">
+                <div class="card-header fw-bold">🍎 Beslenme Tavsiyesi</div>
+                <div class="card-body">
+                    <p class="card-text">@Model.DietPlan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3 shadow h-100">
+                <div class="card-header fw-bold">💪 Antrenman Programı</div>
+                <div class="card-body">
+                    <p class="card-text">@Model.WorkoutPlan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/AI/Index" class="btn btn-outline-primary btn-lg">Yeni Hesaplama Yap</a>
+    </div>
+</div>

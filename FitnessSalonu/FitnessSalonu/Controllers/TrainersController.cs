@@ -10,22 +10,23 @@ using FitnessSalonu.Models;
 
 namespace FitnessSalonu.Controllers
 {
-    public class GymsController : Controller
+    public class TrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public GymsController(ApplicationDbContext context)
+        public TrainersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Gyms
+        // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Gyms.ToListAsync());
+            var applicationDbContext = _context.Trainers.Include(t => t.Gym);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Gyms/Details/5
+        // GET: Trainers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,48 @@ namespace FitnessSalonu.Controllers
                 return NotFound();
             }
 
-            var gym = await _context.Gyms
+            var trainer = await _context.Trainers
+                .Include(t => t.Gym)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (gym == null)
+            if (trainer == null)
             {
                 return NotFound();
             }
 
-            return View(gym);
+            return View(trainer);
         }
 
-        // GET: Gyms/Create
+        // GET: Trainers/Create
         public IActionResult Create()
         {
+            ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name");
             return View();
         }
 
-        // POST: Gyms/Create
+        // POST: Trainers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Trainers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,WorkingHours")] Gym gym)
+        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise,GymId")] Trainer trainer)
         {
+            // 🔴 BU SATIRI EKLE: Gym nesnesinin boş olmasını sorun etme diyoruz.
+            ModelState.Remove("Gym");
+
             if (ModelState.IsValid)
             {
-                _context.Add(gym);
+                _context.Add(trainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(gym);
+
+            // Hata varsa tekrar formu doldur
+            ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
+            return View(trainer);
         }
 
-        // GET: Gyms/Edit/5
+        // GET: Trainers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +83,23 @@ namespace FitnessSalonu.Controllers
                 return NotFound();
             }
 
-            var gym = await _context.Gyms.FindAsync(id);
-            if (gym == null)
+            var trainer = await _context.Trainers.FindAsync(id);
+            if (trainer == null)
             {
                 return NotFound();
             }
-            return View(gym);
+            ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
+            return View(trainer);
         }
 
-        // POST: Gyms/Edit/5
+        // POST: Trainers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,WorkingHours")] Gym gym)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,GymId")] Trainer trainer)
         {
-            if (id != gym.Id)
+            if (id != trainer.Id)
             {
                 return NotFound();
             }
@@ -97,12 +108,12 @@ namespace FitnessSalonu.Controllers
             {
                 try
                 {
-                    _context.Update(gym);
+                    _context.Update(trainer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymExists(gym.Id))
+                    if (!TrainerExists(trainer.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +124,11 @@ namespace FitnessSalonu.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(gym);
+            ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
+            return View(trainer);
         }
 
-        // GET: Gyms/Delete/5
+        // GET: Trainers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +136,35 @@ namespace FitnessSalonu.Controllers
                 return NotFound();
             }
 
-            var gym = await _context.Gyms
+            var trainer = await _context.Trainers
+                .Include(t => t.Gym)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (gym == null)
+            if (trainer == null)
             {
                 return NotFound();
             }
 
-            return View(gym);
+            return View(trainer);
         }
 
-        // POST: Gyms/Delete/5
+        // POST: Trainers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gym = await _context.Gyms.FindAsync(id);
-            if (gym != null)
+            var trainer = await _context.Trainers.FindAsync(id);
+            if (trainer != null)
             {
-                _context.Gyms.Remove(gym);
+                _context.Trainers.Remove(trainer);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GymExists(int id)
+        private bool TrainerExists(int id)
         {
-            return _context.Gyms.Any(e => e.Id == id);
+            return _context.Trainers.Any(e => e.Id == id);
         }
     }
 }

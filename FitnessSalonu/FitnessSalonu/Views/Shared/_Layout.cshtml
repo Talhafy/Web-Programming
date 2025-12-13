@@ -25,19 +25,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold text-primary" asp-area="" asp-controller="AI" asp-action="Index">🤖 AI Planlayıcı</a>
+                        </li>
+
                         @if (User.IsInRole("Admin"))
                         {
+                            <li class="nav-item border-start ms-2 ps-2">
+                                <span class="navbar-text text-muted small">YÖNETİM:</span>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Gyms"
-                                   asp-action="Index">
-                                    Salon Yönetimi
-                                </a>
+                                <a class="nav-link text-dark" asp-controller="Gyms" asp-action="Index">Salonlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Trainers" asp-action="Index">Antrenörler</a>
                             </li>
                         }
 
                     </ul>
-
                     <partial name="_LoginPartial" />
                 </div>
             </div>

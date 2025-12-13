@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "AI Egzersiz Planlayıcı";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>🤖 Yapay Zeka Destekli Planlayıcı</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">Vücut ölçülerinizi girin, size özel programı hazırlayalım.</p>
+
+                    <form asp-action="GeneratePlan" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Kilonuz (kg)</label>
+                            <input type="number" name="Weight" class="form-control" placeholder="Örn: 75" required step="0.1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Boyunuz (cm)</label>
+                            <input type="number" name="Height" class="form-control" placeholder="Örn: 180" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cinsiyet</label>
+                            <select name="Gender" class="form-select">
+                                <option value="Erkek">Erkek</option>
+                                <option value="Kadın">Kadın</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hedefiniz Nedir?</label>
+                            <select name="Goal" class="form-select">
+                                <option value="Kilo Verme">Kilo Vermek İstiyorum</option>
+                                <option value="Kas Yapma">Kas Yapmak İstiyorum</option>
+                                <option value="Form Koruma">Formumu Korumak İstiyorum</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-2">Planımı Oluştur 🚀</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
