@@ -32,7 +32,7 @@ namespace FitnessSalonu.Data
                     EmailConfirmed = true
                 };
 
-                var result = await userManager.CreateAsync(adminUser, "Admin123!");
+                var result = await userManager.CreateAsync(adminUser, "sau");
 
                 if (result.Succeeded)
                 {

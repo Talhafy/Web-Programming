@@ -16,16 +16,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
+        // Geliştirme ortamı için e-posta onayını kapatıyoruz
         options.SignIn.RequireConfirmedAccount = false;
 
-        options.Password.RequiredLength = 6;
-        options.Password.RequireDigit = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireNonAlphanumeric = false;
+        // 🔴 PROJE İSTERİ: Admin şifresi "sau" olmalı.
+        // Bu yüzden şifre kurallarını gevşetiyoruz:
+        options.Password.RequiredLength = 3;       // En az 3 karakter ("sau" için)
+        options.Password.RequireDigit = false;     // Rakam zorunlu değil
+        options.Password.RequireLowercase = false; // Küçük harf zorunlu değil
+        options.Password.RequireUppercase = false; // Büyük harf zorunlu değil
+        options.Password.RequireNonAlphanumeric = false; // Sembol zorunlu değil
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultUI()                // 🔴 LOGIN / REGISTER SAYFALARI
+    .AddDefaultUI()
     .AddDefaultTokenProviders();
 
 // =====================
@@ -51,7 +54,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // =====================
-// AUTH
+// AUTH (Kimlik Doğrulama)
 // =====================
 app.UseAuthentication();
 app.UseAuthorization();
@@ -63,15 +66,15 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// 🔴 Identity UI çalışması için ŞART
-app.MapRazorPages();
+app.MapRazorPages(); // Login/Register sayfaları için gerekli
 
 // =====================
-// SEED ADMIN & ROLE
+// SEED DATA (Admin ve Rol Oluşturma)
 // =====================
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    // Veritabanı yoksa oluşturur ve admin'i ekler
     await DbInitializer.SeedRolesAndAdminAsync(services);
 }
 

@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitnessSalonu")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36f0ce1b575c7e76bb8f607014c0919a881b6382")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67d1456f4933124c2dee0efd750fed2f079d55dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitnessSalonu")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitnessSalonu")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
