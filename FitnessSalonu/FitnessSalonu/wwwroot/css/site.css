@@ -1,22 +1,114 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* GENEL AYARLAR */
 body {
-  margin-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Hafif gri zemin */
+    color: #333;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/* HERO BÖLÜMÜ (Dev Giriş Resmi) */
+.hero-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Resmi sabitler, modern hissettirir */
+    height: 90vh; /* Ekranın %90'ını kaplar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: -85px; /* Navbar'ın altına girmesi için */
+}
+
+.hero-title {
+    font-size: 5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+    letter-spacing: 3px;
+    animation: fadeInDown 1s ease-out;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+}
+
+/* KARTLAR VE EFEKTLER */
+.feature-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border-bottom: 5px solid transparent;
+}
+
+    .feature-box:hover {
+        transform: translateY(-10px);
+        border-bottom: 5px solid #ffc107;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+.icon-box {
+    font-size: 3rem;
+    color: #ffc107;
+    margin-bottom: 1rem;
+}
+
+/* BUTONLAR */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    transition: all 0.3s;
+}
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        transform: scale(1.05);
+    }
+
+.hover-effect:hover {
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+}
+
+.hover-warning:hover {
+    color: #ffc107 !important;
+}
+
+/* DASHBOARD KARTLARI (Admin) */
+.dashboard-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* ANIMASYON */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

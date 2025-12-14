@@ -1,46 +1,52 @@
 ﻿@model FitnessSalonu.Models.AIResponse
 
 @{
-    ViewData["Title"] = "Size Özel Plan";
+    ViewData["Title"] = "AI Planın Hazır";
 }
 
 <div class="container mt-5">
-    <div class="alert alert-success text-center shadow-sm">
-        <h2>🎉 Planınız Hazırlandı!</h2>
-        <p>Vücut analizinize göre yapay zekanın önerileri aşağıdadır.</p>
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-uppercase">🚀 İşte Senin <span class="text-warning">Planın</span></h1>
+        <p class="lead">Yapay zeka analizini tamamladı.</p>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card text-white bg-info mb-3 shadow h-100">
-                <div class="card-header fw-bold">📊 Vücut Analizi</div>
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white text-center shadow">
                 <div class="card-body">
-                    <h5 class="card-title display-6">BMI: @Model.BMI</h5>
-                    <p class="card-text fs-5">Durum: <strong>@Model.BMISTatus</strong></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card text-white bg-warning mb-3 shadow h-100">
-                <div class="card-header fw-bold">🍎 Beslenme Tavsiyesi</div>
-                <div class="card-body">
-                    <p class="card-text">@Model.DietPlan</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card text-white bg-danger mb-3 shadow h-100">
-                <div class="card-header fw-bold">💪 Antrenman Programı</div>
-                <div class="card-body">
-                    <p class="card-text">@Model.WorkoutPlan</p>
+                    <h3 class="card-title">Vücut Kitle İndeksi</h3>
+                    <h1 class="display-3 text-warning fw-bold">@Model.BMI</h1>
+                    <span class="badge bg-light text-dark fs-5">@Model.BMISTatus</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="text-center mt-4">
-        <a href="/AI/Index" class="btn btn-outline-primary btn-lg">Yeni Hesaplama Yap</a>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100 shadow border-0">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-carrot me-2"></i>Beslenme Önerisi</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-5" style="white-space: pre-line;">@Model.DietPlan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-dumbbell me-2"></i>Antrenman Programı</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-5" style="white-space: pre-line;">@Model.WorkoutPlan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a asp-action="Index" class="btn btn-secondary btn-lg">Yeni Program Oluştur</a>
     </div>
 </div>

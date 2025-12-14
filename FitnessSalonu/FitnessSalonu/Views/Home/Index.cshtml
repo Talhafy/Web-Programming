@@ -1,8 +1,172 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model FitnessSalonu.Models.DashboardViewModel
+@{
+    ViewData["Title"] = User.IsInRole("Admin") ? "Yönetim Paneli" : "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.IsInRole("Admin"))
+{
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-uppercase fw-bold border-start border-5 border-warning ps-3">Yönetim Paneli</h2>
+            <span class="badge bg-dark p-2">v2.0 Pro</span>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="dashboard-card bg-dark text-white p-4 shadow h-100">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Toplam Üye</p>
+                            <h2 class="display-6 fw-bold text-warning mb-0">@Model.TotalUsers</h2>
+                        </div>
+                        <i class="fas fa-users fa-3x text-secondary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-success">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Antrenörler</p>
+                            <h2 class="display-6 fw-bold text-success mb-0">@Model.TotalTrainers</h2>
+                        </div>
+                        <i class="fas fa-dumbbell fa-3x text-success opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-primary">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Randevular</p>
+                            <h2 class="display-6 fw-bold text-primary mb-0">@Model.TotalAppointments</h2>
+                        </div>
+                        <i class="fas fa-calendar-check fa-3x text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Salon Sayısı</p>
+                            <h2 class="display-6 fw-bold text-info mb-0">@Model.TotalGyms</h2>
+                        </div>
+                        <i class="fas fa-building fa-3x text-info opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar text-warning me-2"></i>Popüler Eğitmenler</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="trainerChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-warning me-2"></i>Hizmet Dağılımı</h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <canvas id="serviceChart" style="max-height: 250px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const trainerNames = @Html.Raw(Json.Serialize(Model.TrainerNames));
+            const trainerCounts = @Html.Raw(Json.Serialize(Model.TrainerAppointmentCounts));
+            const serviceNames = @Html.Raw(Json.Serialize(Model.ServiceNames));
+            const serviceCounts = @Html.Raw(Json.Serialize(Model.ServiceCounts));
+
+            new Chart(document.getElementById('trainerChart'), {
+                type: 'bar',
+                data: {
+                    labels: trainerNames,
+                    datasets: [{
+                        label: 'Randevu Sayısı',
+                        data: trainerCounts,
+                        backgroundColor: '#ffc107',
+                        borderRadius: 5
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
+            });
+
+            new Chart(document.getElementById('serviceChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: serviceNames,
+                    datasets: [{
+                        data: serviceCounts,
+                        backgroundColor: ['#212529', '#ffc107', '#198754', '#0dcaf0', '#6c757d'],
+                        borderWidth: 0
+                    }]
+                },
+                 options: { plugins: { legend: { position: 'bottom' } } }
+            });
+        </script>
+    }
+}
+else
+{
+    <header class="hero-header">
+        <div class="container">
+            <h1 class="hero-title">ASLA <span class="text-warning">PES ETME</span></h1>
+            <p class="hero-subtitle">Yapay zeka destekli antrenman programları ve profesyonel koçlar ile hedefine ulaş.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a asp-controller="AI" asp-action="Index" class="btn btn-warning btn-lg px-5 py-3 rounded-pill fw-bold shadow">
+                    <i class="fas fa-robot me-2"></i> ÜCRETSİZ ANALİZ
+                </a>
+                <a asp-controller="Appointments" asp-action="Index" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">
+                    <i class="fas fa-calendar-check me-2"></i> RANDEVU AL
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container py-5" style="margin-top: -50px; position: relative; z-index: 2;">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box text-center h-100">
+                    <i class="fas fa-brain icon-box"></i>
+                    <h4>AI Planlama</h4>
+                    <p class="text-muted">Vücut kitle indeksine göre saniyeler içinde sana özel beslenme ve antrenman programı oluşturur.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center h-100">
+                    <i class="fas fa-dumbbell icon-box"></i>
+                    <h4>Uzman Koçlar</h4>
+                    <p class="text-muted">Alanında sertifikalı, profesyonel antrenörlerimizle birebir çalışma fırsatı yakala.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center h-100">
+                    <i class="fas fa-mobile-alt icon-box"></i>
+                    <h4>Online Randevu</h4>
+                    <p class="text-muted">İstediğin hizmeti, istediğin saatte rezerve et. Çakışma yok, bekleme yok.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-black text-white py-5 mt-5">
+        <div class="container text-center">
+            <h2 class="display-5 mb-4 fw-bold">HAZIR MISIN?</h2>
+            <p class="lead mb-4 text-secondary">Bugün başlayacağın küçük bir adım, yarın büyük bir değişime dönüşecek.</p>
+            <a asp-controller="Gyms" asp-action="Index" class="btn btn-outline-warning px-5 rounded-pill">SALONLARI İNCELE</a>
+        </div>
+    </div>
+}

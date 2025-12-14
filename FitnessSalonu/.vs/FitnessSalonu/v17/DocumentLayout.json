@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\ai\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\ai\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\ai\\result.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\ai\\result.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\controllers\\aicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\controllers\\aicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\models\\airequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\models\\airequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\ai\\result.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\ai\\result.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,66 +43,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAAwEMAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-13T20:15:23.903Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Result.cshtml",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Result.cshtml",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\AI\\Result.cshtml",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Result.cshtml",
-              "RelativeToolTip": "FitnessSalonu\\Views\\AI\\Result.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-13T20:06:07.242Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Index.cshtml",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\AI\\Index.cshtml",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Index.cshtml",
-              "RelativeToolTip": "FitnessSalonu\\Views\\AI\\Index.cshtml",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwCwAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-13T20:05:33.801Z",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Program.cs",
+              "RelativeDocumentMoniker": "FitnessSalonu\\Program.cs",
+              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Program.cs",
+              "RelativeToolTip": "FitnessSalonu\\Program.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAowDEAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T00:17:12.612Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Result.cshtml",
+              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Result.cshtml",
+              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\AI\\Result.cshtml",
+              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\AI\\Result.cshtml",
+              "RelativeToolTip": "FitnessSalonu\\Views\\AI\\Result.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAwDMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-13T23:53:11.7Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "AIController.cs",
               "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Controllers\\AIController.cs",
               "RelativeDocumentMoniker": "FitnessSalonu\\Controllers\\AIController.cs",
               "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Controllers\\AIController.cs",
               "RelativeToolTip": "FitnessSalonu\\Controllers\\AIController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAwAcAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwCkAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-13T20:03:50.634Z",
+              "WhenOpened": "2025-12-13T23:50:02.68Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AIRequest.cs",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Models\\AIRequest.cs",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Models\\AIRequest.cs",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Models\\AIRequest.cs",
-              "RelativeToolTip": "FitnessSalonu\\Models\\AIRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-13T19:59:37.511Z",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\appsettings.json",
+              "RelativeDocumentMoniker": "FitnessSalonu\\appsettings.json",
+              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\appsettings.json",
+              "RelativeToolTip": "FitnessSalonu\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-13T23:48:57.375Z",
               "EditorCaption": ""
             }
           ]

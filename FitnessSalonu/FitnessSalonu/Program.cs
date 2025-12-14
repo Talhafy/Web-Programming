@@ -2,6 +2,10 @@ using FitnessSalonu.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+// 🔴 EKLENEN KISIM: PostgreSQL Tarih Hatası Çözümü
+// Bu satır 'var builder' satırından ÖNCE gelmek zorundadır.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // =====================
@@ -19,8 +23,7 @@ builder.Services
         // Geliştirme ortamı için e-posta onayını kapatıyoruz
         options.SignIn.RequireConfirmedAccount = false;
 
-        // 🔴 PROJE İSTERİ: Admin şifresi "sau" olmalı.
-        // Bu yüzden şifre kurallarını gevşetiyoruz:
+        // Admin şifresi "sau" olmalı.
         options.Password.RequiredLength = 3;       // En az 3 karakter ("sau" için)
         options.Password.RequireDigit = false;     // Rakam zorunlu değil
         options.Password.RequireLowercase = false; // Küçük harf zorunlu değil
@@ -35,6 +38,16 @@ builder.Services
 // MVC + RAZOR PAGES
 // =====================
 builder.Services.AddControllersWithViews();
+// ============================================================
+// 🔴 GEMINI İÇİN HTTP CLIENT AYARI (Hatanın Çözümü)
+// ============================================================
+builder.Services.AddHttpClient("GeminiClient", client =>
+{
+    // Adresin kökünü buraya sabitliyoruz. Hata şansı kalmıyor.
+    client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/");
+    client.Timeout = TimeSpan.FromSeconds(30); // 30 saniye cevap bekleme süresi
+});
+// ============================================================
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

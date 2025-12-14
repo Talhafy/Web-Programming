@@ -1,65 +1,94 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FitnessSalonu</title>
+    <title>@ViewData["Title"] - PowerFit Gym</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FitnessSalonu.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitnessSalonu</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top shadow-lg py-3">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center" asp-controller="Home" asp-action="Index" style="font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 1px;">
+                    <i class="fas fa-dumbbell text-warning me-2"></i> PowerFit<span class="text-warning">Gym</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse justify-content-end">
+                    <ul class="navbar-nav align-items-center gap-3">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white text-uppercase fw-bold" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-bold text-primary" asp-area="" asp-controller="AI" asp-action="Index">🤖 AI Planlayıcı</a>
+                            <a class="nav-link btn btn-outline-warning text-warning px-4 rounded-pill fw-bold hover-effect" asp-controller="AI" asp-action="Index">
+                                <i class="fas fa-robot me-1"></i> AI Koç
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-warning text-dark px-4 rounded-pill fw-bold" asp-controller="Appointments" asp-action="Index">
+                                <i class="far fa-calendar-alt me-1"></i> Randevu Al
+                            </a>
                         </li>
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item border-start ms-2 ps-2">
-                                <span class="navbar-text text-muted small">YÖNETİM:</span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Gyms" asp-action="Index">Salonlar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Trainers" asp-action="Index">Antrenörler</a>
+                            <li class="nav-item dropdown ms-lg-3 border-start border-secondary ps-lg-3">
+                                <a class="nav-link dropdown-toggle text-info fw-bold" href="#" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-shield me-1"></i> Yönetim
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark shadow">
+                                    <li><a class="dropdown-item" asp-controller="Gyms" asp-action="Index"><i class="fas fa-building me-2"></i>Salonlar</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Trainers" asp-action="Index"><i class="fas fa-users me-2"></i>Antrenörler</a></li>
+                                    <li><a class="dropdown-item" asp-controller="GymServices" asp-action="Index"><i class="fas fa-tags me-2"></i>Hizmetler</a></li>
+                                </ul>
                             </li>
                         }
 
+                        <partial name="_LoginPartial" />
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <main role="main" class="flex-grow-1" style="padding-top: 80px;">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-black text-white pt-5 pb-3 mt-auto border-top border-warning border-3">
         <div class="container">
-            &copy; 2025 - FitnessSalonu - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h4 class="text-uppercase fw-bold text-warning mb-3">PowerFit Gym</h4>
+                    <p class="text-secondary small">Sınırlarını zorlamak ve en iyi versiyonuna ulaşmak için doğru yerdesin. Teknoloji ve sporu birleştiriyoruz.</p>
+                </div>
+                <div class="col-md-4 mb-3 text-center">
+                    <h5 class="text-white mb-3">Hızlı Erişim</h5>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#" class="text-secondary hover-warning"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-secondary hover-warning"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-secondary hover-warning"><i class="fab fa-youtube fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 text-end">
+                    <p class="text-secondary small mb-0">&copy; 2025 Web Programlama Projesi</p>
+                    <small class="text-muted">Sakarya Üniversitesi</small>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
