@@ -1,172 +1,72 @@
-﻿@model FitnessSalonu.Models.DashboardViewModel
-@{
-    ViewData["Title"] = User.IsInRole("Admin") ? "Yönetim Paneli" : "Ana Sayfa";
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-@if (User.IsInRole("Admin"))
-{
-    <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-uppercase fw-bold border-start border-5 border-warning ps-3">Yönetim Paneli</h2>
-            <span class="badge bg-dark p-2">v2.0 Pro</span>
-        </div>
+<div class="container-fluid p-0 mb-5">
+    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="height: 100vh; min-height: 600px;">
+                <img class="w-100 h-100" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Fitness Gym" style="object-fit: cover; filter: brightness(0.4);">
 
-        <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="dashboard-card bg-dark text-white p-4 shadow h-100">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Toplam Üye</p>
-                            <h2 class="display-6 fw-bold text-warning mb-0">@Model.TotalUsers</h2>
-                        </div>
-                        <i class="fas fa-users fa-3x text-secondary opacity-25"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-success">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Antrenörler</p>
-                            <h2 class="display-6 fw-bold text-success mb-0">@Model.TotalTrainers</h2>
-                        </div>
-                        <i class="fas fa-dumbbell fa-3x text-success opacity-25"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-primary">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Randevular</p>
-                            <h2 class="display-6 fw-bold text-primary mb-0">@Model.TotalAppointments</h2>
-                        </div>
-                        <i class="fas fa-calendar-check fa-3x text-primary opacity-25"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="dashboard-card bg-white text-dark p-4 shadow h-100 border-start border-5 border-info">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-secondary text-uppercase mb-1 small fw-bold">Salon Sayısı</p>
-                            <h2 class="display-6 fw-bold text-info mb-0">@Model.TotalGyms</h2>
-                        </div>
-                        <i class="fas fa-building fa-3x text-info opacity-25"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <h5 class="text-white text-uppercase mb-3 animated slideInDown" style="letter-spacing: 3px;">POWERFIT GYM & FITNESS</h5>
+                        <h1 class="display-2 text-white text-uppercase mb-md-4 animated zoomIn" style="font-family: 'Oswald', sans-serif; font-weight: 700;">
+                            ASLA <span class="text-warning">PES ETME</span>
+                        </h1>
+                        <p class="lead text-white mb-4 opacity-75">Yapay zeka destekli antrenman programları ve profesyonel koçlar ile hedefine ulaş.</p>
 
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-white py-3 border-bottom">
-                        <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar text-warning me-2"></i>Popüler Eğitmenler</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="trainerChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-white py-3 border-bottom">
-                        <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-warning me-2"></i>Hizmet Dağılımı</h5>
-                    </div>
-                    <div class="card-body d-flex justify-content-center align-items-center">
-                        <canvas id="serviceChart" style="max-height: 250px;"></canvas>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="/AI" class="btn btn-warning py-md-3 px-md-5 rounded-pill fw-bold shadow-lg">
+                                <i class="fas fa-robot me-2"></i>AI KOÇ İLE TANIŞ
+                            </a>
+                            <a href="/Appointments/Create" class="btn btn-outline-light py-md-3 px-md-5 rounded-pill fw-bold shadow-lg">
+                                <i class="far fa-calendar-alt me-2"></i>RANDEVU AL
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @section Scripts {
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const trainerNames = @Html.Raw(Json.Serialize(Model.TrainerNames));
-            const trainerCounts = @Html.Raw(Json.Serialize(Model.TrainerAppointmentCounts));
-            const serviceNames = @Html.Raw(Json.Serialize(Model.ServiceNames));
-            const serviceCounts = @Html.Raw(Json.Serialize(Model.ServiceCounts));
-
-            new Chart(document.getElementById('trainerChart'), {
-                type: 'bar',
-                data: {
-                    labels: trainerNames,
-                    datasets: [{
-                        label: 'Randevu Sayısı',
-                        data: trainerCounts,
-                        backgroundColor: '#ffc107',
-                        borderRadius: 5
-                    }]
-                },
-                options: { scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
-            });
-
-            new Chart(document.getElementById('serviceChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: serviceNames,
-                    datasets: [{
-                        data: serviceCounts,
-                        backgroundColor: ['#212529', '#ffc107', '#198754', '#0dcaf0', '#6c757d'],
-                        borderWidth: 0
-                    }]
-                },
-                 options: { plugins: { legend: { position: 'bottom' } } }
-            });
-        </script>
-    }
-}
-else
-{
-    <header class="hero-header">
-        <div class="container">
-            <h1 class="hero-title">ASLA <span class="text-warning">PES ETME</span></h1>
-            <p class="hero-subtitle">Yapay zeka destekli antrenman programları ve profesyonel koçlar ile hedefine ulaş.</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a asp-controller="AI" asp-action="Index" class="btn btn-warning btn-lg px-5 py-3 rounded-pill fw-bold shadow">
-                    <i class="fas fa-robot me-2"></i> ÜCRETSİZ ANALİZ
-                </a>
-                <a asp-controller="Appointments" asp-action="Index" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">
-                    <i class="fas fa-calendar-check me-2"></i> RANDEVU AL
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <div class="container py-5" style="margin-top: -50px; position: relative; z-index: 2;">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-box text-center h-100">
-                    <i class="fas fa-brain icon-box"></i>
-                    <h4>AI Planlama</h4>
-                    <p class="text-muted">Vücut kitle indeksine göre saniyeler içinde sana özel beslenme ve antrenman programı oluşturur.</p>
+<div class="container-fluid py-5 bg-black">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
+                    <div class="card-body text-center p-5">
+                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-brain fa-2x text-dark"></i>
+                        </div>
+                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">AI Planlama</h3>
+                        <p class="text-secondary">Vücut kitle indeksine göre saniyeler içinde sana özel beslenme ve antrenman programı oluşturur.</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-box text-center h-100">
-                    <i class="fas fa-dumbbell icon-box"></i>
-                    <h4>Uzman Koçlar</h4>
-                    <p class="text-muted">Alanında sertifikalı, profesyonel antrenörlerimizle birebir çalışma fırsatı yakala.</p>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
+                    <div class="card-body text-center p-5">
+                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-dumbbell fa-2x text-dark"></i>
+                        </div>
+                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">Uzman Koçlar</h3>
+                        <p class="text-secondary">Alanında sertifikalı, profesyonel antrenörlerimizle birebir çalışma fırsatı yakala.</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-box text-center h-100">
-                    <i class="fas fa-mobile-alt icon-box"></i>
-                    <h4>Online Randevu</h4>
-                    <p class="text-muted">İstediğin hizmeti, istediğin saatte rezerve et. Çakışma yok, bekleme yok.</p>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
+                    <div class="card-body text-center p-5">
+                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-mobile-alt fa-2x text-dark"></i>
+                        </div>
+                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">Online Randevu</h3>
+                        <p class="text-secondary">İstediğin hizmeti, istediğin saatte rezerve et. Çakışma yok, bekleme yok.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="bg-black text-white py-5 mt-5">
-        <div class="container text-center">
-            <h2 class="display-5 mb-4 fw-bold">HAZIR MISIN?</h2>
-            <p class="lead mb-4 text-secondary">Bugün başlayacağın küçük bir adım, yarın büyük bir değişime dönüşecek.</p>
-            <a asp-controller="Gyms" asp-action="Index" class="btn btn-outline-warning px-5 rounded-pill">SALONLARI İNCELE</a>
-        </div>
-    </div>
-}
+</div>

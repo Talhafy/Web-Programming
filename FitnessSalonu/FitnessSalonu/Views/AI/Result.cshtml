@@ -4,49 +4,60 @@
     ViewData["Title"] = "AI Planın Hazır";
 }
 
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-uppercase">🚀 İşte Senin <span class="text-warning">Planın</span></h1>
-        <p class="lead">Yapay zeka analizini tamamladı.</p>
+<div class="container py-5">
+
+    <div class="text-center mb-5 animate-on-scroll">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-3 fw-bold">ANALİZ TAMAMLANDI</span>
+        <h1 class="display-4 fw-bold text-uppercase" style="font-family: 'Oswald';">Senin <span class="text-warning">Yol Haritan</span></h1>
     </div>
 
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-6">
-            <div class="card bg-dark text-white text-center shadow">
-                <div class="card-body">
-                    <h3 class="card-title">Vücut Kitle İndeksi</h3>
-                    <h1 class="display-3 text-warning fw-bold">@Model.BMI</h1>
-                    <span class="badge bg-light text-dark fs-5">@Model.BMISTatus</span>
+    <div class="row justify-content-center mb-5 animate-on-scroll delay-100">
+        <div class="col-md-8">
+            <div class="card bg-black text-white border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-body p-4 d-flex justify-content-around align-items-center flex-wrap text-center">
+                    <div>
+                        <small class="text-secondary text-uppercase fw-bold">Vücut Kitle İndeksi</small>
+                        <h2 class="display-4 fw-bold text-warning mb-0">@Model.BMI</h2>
+                    </div>
+                    <div class="vr bg-secondary mx-3 d-none d-md-block" style="height: 50px;"></div>
+                    <div>
+                        <small class="text-secondary text-uppercase fw-bold">Durum Analizi</small>
+                        <h3 class="fw-bold mb-0 text-white">@Model.BMISTatus</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card h-100 shadow border-0">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0"><i class="fas fa-carrot me-2"></i>Beslenme Önerisi</h4>
+        <div class="col-lg-6 animate-on-scroll delay-200">
+            <div class="card h-100 border-0 shadow rounded-4 overflow-hidden">
+                <div class="card-header bg-success text-white py-3 px-4 d-flex align-items-center">
+                    <i class="fas fa-apple-alt fa-2x me-3 opacity-50"></i>
+                    <h4 class="mb-0 fw-bold">Beslenme Planı</h4>
                 </div>
-                <div class="card-body">
-                    <p class="card-text fs-5" style="white-space: pre-line;">@Model.DietPlan</p>
+                <div class="card-body p-4 bg-white">
+                    <p class="card-text fs-5 lh-lg" style="white-space: pre-line; color: #444;">@Model.DietPlan</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card h-100 shadow border-0">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-dumbbell me-2"></i>Antrenman Programı</h4>
+        <div class="col-lg-6 animate-on-scroll delay-300">
+            <div class="card h-100 border-0 shadow rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3 px-4 d-flex align-items-center">
+                    <i class="fas fa-dumbbell fa-2x me-3 opacity-50"></i>
+                    <h4 class="mb-0 fw-bold">Antrenman Programı</h4>
                 </div>
-                <div class="card-body">
-                    <p class="card-text fs-5" style="white-space: pre-line;">@Model.WorkoutPlan</p>
+                <div class="card-body p-4 bg-white">
+                    <p class="card-text fs-5 lh-lg" style="white-space: pre-line; color: #444;">@Model.WorkoutPlan</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="text-center mt-5">
-        <a asp-action="Index" class="btn btn-secondary btn-lg">Yeni Program Oluştur</a>
+    <div class="text-center mt-5 animate-on-scroll delay-300">
+        <a asp-action="Index" class="btn btn-outline-dark btn-lg rounded-pill px-5">
+            <i class="fas fa-redo-alt me-2"></i> Yeni Analiz Yap
+        </a>
     </div>
 </div>

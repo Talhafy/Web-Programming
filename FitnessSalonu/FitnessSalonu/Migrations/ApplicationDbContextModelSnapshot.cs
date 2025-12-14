@@ -31,7 +31,7 @@ namespace FitnessSalonu.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("GymServiceId")
                         .HasColumnType("integer");
@@ -51,6 +51,8 @@ namespace FitnessSalonu.Migrations
                     b.HasIndex("GymServiceId");
 
                     b.HasIndex("TrainerId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
                 });
@@ -128,6 +130,9 @@ namespace FitnessSalonu.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("GymId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WorkingHours")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -280,12 +285,10 @@ namespace FitnessSalonu.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -322,12 +325,10 @@ namespace FitnessSalonu.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -351,9 +352,17 @@ namespace FitnessSalonu.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("GymService");
 
                     b.Navigation("Trainer");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FitnessSalonu.Models.GymService", b =>

@@ -1,0 +1,91 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .login-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-bottom: 4px solid #ffc107;
+    }
+
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+
+    .btn-gold {
+        background-color: #ffc107;
+        color: #000;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+        .btn-gold:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="card login-card" style="max-width: 450px; width: 100%;">
+
+        <div class="login-header">
+            <h2 class="fw-bold text-uppercase mb-1">
+                <i class="fas fa-dumbbell text-warning me-2"></i>FITNESS<span class="text-warning">PRO</span>
+            </h2>
+            <p class="text-secondary small mb-0">Antrenmana Kaldığın Yerden Devam Et</p>
+        </div>
+
+        <div class="card-body p-5 bg-white">
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control rounded-3" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="text-muted"><i class="fas fa-envelope me-2"></i>E-Posta</label>
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control rounded-3" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="text-muted"><i class="fas fa-lock me-2"></i>Şifre</label>
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    <label class="form-check-label text-secondary" asp-for="Input.RememberMe">
+                        Beni Hatırla
+                    </label>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button id="login-submit" type="submit" class="btn btn-gold btn-lg rounded-3 py-3">
+                        GİRİŞ YAP <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+
+                <div class="text-center mt-4 border-top pt-3">
+                    <p class="text-muted small">Henüz üye değil misin? <a asp-page="./Register" class="text-warning fw-bold text-decoration-none">Hemen Kayıt Ol</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

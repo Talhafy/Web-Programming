@@ -1,45 +1,79 @@
 ﻿@{
-    ViewData["Title"] = "AI Egzersiz Planlayıcı";
+    ViewData["Title"] = "AI Planlayıcı";
 }
 
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4>🤖 Yapay Zeka Destekli Planlayıcı</h4>
-                </div>
-                <div class="card-body">
-                    <p class="text-center">Vücut ölçülerinizi girin, size özel programı hazırlayalım.</p>
+        <div class="col-lg-8">
 
+            <div class="text-center mb-5 animate-on-scroll">
+                <div class="d-inline-block p-3 rounded-circle bg-dark text-warning mb-3 shadow">
+                    <i class="fas fa-robot fa-3x"></i>
+                </div>
+                <h1 class="display-4 fw-bold text-uppercase" style="font-family: 'Oswald';">Yapay Zeka <span class="text-warning">Koçun</span></h1>
+                <p class="lead text-muted">Vücut ölçülerini gir, Gemini 3.0 saniyeler içinde sana özel programı hazırlasın.</p>
+            </div>
+
+            <div class="card border-0 shadow-lg animate-on-scroll delay-100" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-header bg-black text-white p-4">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-sliders-h me-2 text-warning"></i> Analiz Parametreleri</h5>
+                </div>
+                <div class="card-body p-5 bg-white">
                     <form asp-action="GeneratePlan" method="post">
-                        <div class="mb-3">
-                            <label class="form-label">Kilonuz (kg)</label>
-                            <input type="number" name="Weight" class="form-control" placeholder="Örn: 75" required step="0.1">
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-secondary">Kilonuz (kg)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0"><i class="fas fa-weight text-warning"></i></span>
+                                    <input type="number" name="Weight" class="form-control bg-light border-0 py-3" placeholder="Örn: 75" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-secondary">Boyunuz (cm)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0"><i class="fas fa-ruler-vertical text-warning"></i></span>
+                                    <input type="number" name="Height" class="form-control bg-light border-0 py-3" placeholder="Örn: 180" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-secondary">Cinsiyet</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0"><i class="fas fa-venus-mars text-warning"></i></span>
+                                    <select name="Gender" class="form-select bg-light border-0 py-3">
+                                        <option value="Erkek">Erkek</option>
+                                        <option value="Kadın">Kadın</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-secondary">Hedefiniz</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0"><i class="fas fa-bullseye text-warning"></i></span>
+                                    <select name="Goal" class="form-select bg-light border-0 py-3">
+                                        <option value="Kilo Vermek">Kilo Vermek (Yağ Yakımı)</option>
+                                        <option value="Kas Yapmak">Kas Kütlesi Kazanmak</option>
+                                        <option value="Fit Olmak">Fit ve Sağlıklı Kalmak</option>
+                                        <option value="Güç Kazanmak">Güç ve Kondisyon</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Boyunuz (cm)</label>
-                            <input type="number" name="Height" class="form-control" placeholder="Örn: 180" required>
+
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-warning btn-lg py-3 rounded-pill fw-bold text-dark shadow-sm hover-effect">
+                                <i class="fas fa-magic me-2"></i> ANALİZİ BAŞLAT
+                            </button>
+                            <small class="text-center text-muted mt-3"><i class="fas fa-info-circle"></i> Sonuçların gelmesi 5-10 saniye sürebilir.</small>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cinsiyet</label>
-                            <select name="Gender" class="form-select">
-                                <option value="Erkek">Erkek</option>
-                                <option value="Kadın">Kadın</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Hedefiniz Nedir?</label>
-                            <select name="Goal" class="form-select">
-                                <option value="Kilo Verme">Kilo Vermek İstiyorum</option>
-                                <option value="Kas Yapma">Kas Yapmak İstiyorum</option>
-                                <option value="Form Koruma">Formumu Korumak İstiyorum</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 py-2">Planımı Oluştur 🚀</button>
+
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

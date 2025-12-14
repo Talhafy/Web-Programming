@@ -9,9 +9,13 @@ namespace FitnessSalonu.Models
         [Required]
         public string FullName { get; set; }
 
-        public string Expertise { get; set; } // Kas, kilo verme
+        public string Expertise { get; set; } // Uzmanlık (Kas, kilo verme vb.)
+
+        // 🔴 YENİ EKLENEN KISIM: Çalışma Saati
+        // Varsayılan olarak 8 saat atadık.
+        public int WorkingHours { get; set; } = 8;
 
         public int GymId { get; set; }
-        public Gym Gym { get; set; }
+        public virtual Gym? Gym { get; set; } // İlişki
     }
 }

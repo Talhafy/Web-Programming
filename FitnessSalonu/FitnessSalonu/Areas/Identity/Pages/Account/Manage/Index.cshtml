@@ -1,0 +1,44 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profilim";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="_ManageNav" />
+    </div>
+
+    <div class="col-md-9">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-black text-white p-4 border-bottom border-warning border-4">
+                <h4 class="mb-0 fw-bold"><i class="fas fa-id-card text-warning me-2"></i> Profil Bilgileri</h4>
+            </div>
+            <div class="card-body p-5">
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+
+                <form id="profile-form" method="post">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Username" class="form-control bg-light" disabled />
+                        <label asp-for="Username">Kullanıcı Adı (Email)</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Telefon" />
+                        <label asp-for="Input.PhoneNumber">Telefon Numarası</label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <button id="update-profile-button" type="submit" class="btn btn-warning btn-lg rounded-pill fw-bold px-5 shadow hover-effect">
+                        <i class="fas fa-save me-2"></i> DEĞİŞİKLİKLERİ KAYDET
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

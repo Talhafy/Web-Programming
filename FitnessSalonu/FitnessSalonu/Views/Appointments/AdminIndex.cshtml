@@ -1,0 +1,90 @@
+﻿@model IEnumerable<FitnessSalonu.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Randevu Yönetimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="mb-5">
+        <h5 class="text-warning text-uppercase ls-2 mb-2">Yönetim Paneli</h5>
+        <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald', sans-serif;">RANDEVU <span class="text-warning">LİSTESİ</span></h1>
+        <p class="lead text-secondary">Sistemdeki tüm üye randevularını buradan yönetebilirsiniz.</p>
+    </div>
+
+    <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover table-striped align-middle mb-0">
+                    <thead class="bg-black border-bottom border-warning">
+                        <tr class="text-uppercase small ls-1 text-warning">
+                            <th class="py-3 ps-4"><i class="fas fa-user me-2"></i>Üye Bilgisi</th>
+                            <th class="py-3"><i class="fas fa-running me-2"></i>Hizmet / Eğitmen</th>
+                            <th class="py-3"><i class="far fa-calendar-alt me-2"></i>Tarih & Saat</th>
+                            <th class="py-3"><i class="fas fa-info-circle me-2"></i>Durum</th>
+                            <th class="py-3 text-end pe-4">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user text-dark"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="mb-0 fw-bold text-white">
+                                                @(item.User != null ? item.User.UserName : "Silinmiş Üye")
+                                            </h6>
+                                            <small class="text-secondary">
+                                                ID: @(item.UserId != null && item.UserId.Length > 8 ? item.UserId.Substring(0, 8) + "..." : item.UserId)
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <h6 class="mb-1 fw-bold text-white">
+                                        @(item.GymService != null ? item.GymService.Name : "Hizmet Silinmiş")
+                                    </h6>
+                                    <small class="text-warning">
+                                        <i class="fas fa-chalkboard-teacher me-1"></i>
+                                        @(item.Trainer != null ? item.Trainer.FullName : "Eğitmen Yok")
+                                    </small>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-bold text-white fs-5">@item.AppointmentDate.ToString("dd.MM.yyyy")</span>
+                                        <small class="text-secondary"><i class="far fa-clock me-1"></i>@item.AppointmentDate.ToString("HH:mm")</small>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if (item.IsApproved)
+                                    {
+                                        <span class="badge bg-success rounded-pill px-3 py-2 text-uppercase ls-1 fw-bold"><i class="fas fa-check-circle me-2"></i>Onaylı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2 text-uppercase ls-1 fw-bold"><i class="fas fa-hourglass-half me-2"></i>Bekliyor</span>
+                                    }
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <div class="btn-group shadow-sm" role="group">
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger text-white fw-bold" onclick="return confirm('Bu randevuyu silmek istediğinize emin misiniz?');">
+                                            <i class="fas fa-trash-alt me-2"></i> Sil
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
