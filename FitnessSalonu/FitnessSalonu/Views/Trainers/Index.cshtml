@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<FitnessSalonu.Models.Trainer>
 
 @{
-    ViewData["Title"] = "Eğitmen Kadromuz";
+    ViewData["Title"] = "Eğitmenler";
 }
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-5 animate-on-scroll">
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
             <h5 class="text-warning text-uppercase ls-2 mb-2">Profesyonel Kadro</h5>
-            <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald', sans-serif;">EĞİTMENLERİMİZ</h1>
+            <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">EĞİTMENLERİMİZ</h1>
         </div>
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="Create" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm hover-effect">
+            <a asp-action="Create" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm hover-scale">
                 <i class="fas fa-plus me-2"></i> YENİ EĞİTMEN EKLE
             </a>
         }
@@ -21,40 +21,36 @@
     <div class="row g-4">
         @foreach (var item in Model)
         {
-            <div class="col-md-6 col-lg-4 animate-on-scroll">
-                <div class="card bg-dark text-white border-0 shadow-lg h-100 overflow-hidden rounded-4 hover-scale">
-                    <div class="card-header bg-transparent border-bottom border-warning border-2 py-3">
-                        <h4 class="fw-bold mb-0 text-center">@item.FullName</h4>
+            <div class="col-md-6 col-lg-4 wow fadeInUp">
+                <div class="card bg-dark text-white border-0 shadow-lg h-100" style="border-bottom: 4px solid #ffc107 !important;">
+                    <div class="card-body p-4 text-center">
+                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user-ninja fa-2x text-dark"></i>
+                        </div>
+
+                        <h3 class="fw-bold mb-2" style="font-family: 'Oswald';">@item.FullName</h3>
+
+                        <p class="text-warning fw-bold mb-3">
+                            @(item.GymService != null ? item.GymService.Name : "Atanmamış")
+                        </p>
+
+                        <div class="bg-black rounded p-3 mb-3">
+                            <small class="text-secondary d-block text-uppercase">Çalışma Salonu</small>
+                            <span class="fw-bold text-white">@(item.Gym != null ? item.Gym.Name : "-")</span>
+                        </div>
+
+                        <div class="text-secondary mb-4">
+                            <i class="far fa-clock text-warning me-2"></i> @item.WorkingHours Saat / Gün
+                        </div>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="d-flex justify-content-center gap-2 border-top border-secondary pt-3">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3">Düzenle</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3">Sil</a>
+                            </div>
+                        }
                     </div>
-
-                    <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
-                        <div class="mb-4">
-                            <i class="fas fa-medal fa-3x text-warning mb-3"></i>
-                            <h5 class="text-secondary text-uppercase small fw-bold ls-1">Uzmanlık</h5>
-                            <p class="fs-5 fw-bold mb-0">@item.Expertise</p>
-                        </div>
-
-                        <div>
-                            <i class="far fa-clock fa-2x text-warning mb-2 opacity-75"></i>
-                            <h6 class="text-secondary small fw-bold">Günlük Çalışma Saati</h6>
-                            <p class="fw-bold fs-4">@item.WorkingHours Saat</p>
-                        </div>
-                    </div>
-
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <div class="card-footer bg-black border-top border-secondary py-3 d-flex justify-content-around">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3 fw-bold">
-                                <i class="fas fa-edit me-1"></i> Düzenle
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold">
-                                <i class="fas fa-info-circle me-1"></i> Detay
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold">
-                                <i class="fas fa-trash-alt me-1"></i> Sil
-                            </a>
-                        </div>
-                    }
                 </div>
             </div>
         }

@@ -1,36 +1,38 @@
 ﻿@model FitnessSalonu.Models.Trainer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Eğitmen Detayı";
 }
 
-<h1>Details</h1>
+<div class="container py-5">
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-black border-bottom border-warning p-4 text-center">
+            <h3 class="fw-bold m-0 text-warning text-uppercase">EĞİTMEN DETAYI</h3>
+        </div>
+        <div class="card-body p-5 text-center">
+            <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-ninja fa-3x text-dark"></i>
+            </div>
 
-<div>
-    <h4>Trainer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Expertise)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Expertise)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gym)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gym.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <h2 class="mb-2 fw-bold" style="font-family: 'Oswald';">@Model.FullName</h2>
+            <p class="text-warning fs-5 fw-bold mb-4">
+                @(Model.GymService != null ? Model.GymService.Name : "Uzmanlık Yok")
+            </p>
+
+            <div class="bg-secondary bg-opacity-25 rounded p-3 mb-3">
+                <small class="text-white-50 d-block text-uppercase ls-1">Çalışma Salonu</small>
+                <span class="fw-bold fs-5">@(Model.Gym != null ? Model.Gym.Name : "-")</span>
+            </div>
+
+            <div class="bg-secondary bg-opacity-25 rounded p-3 mb-4">
+                <small class="text-white-50 d-block text-uppercase ls-1">Günlük Çalışma</small>
+                <span class="fw-bold fs-5">@Model.WorkingHours Saat</span>
+            </div>
+
+            <div class="d-flex justify-content-center gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning fw-bold rounded-pill px-4">DÜZENLE</a>
+                <a asp-action="Index" class="btn btn-outline-light rounded-pill px-4">LİSTEYE DÖN</a>
+            </div>
+        </div>
+    </div>
 </div>

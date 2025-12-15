@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitnessSalonu.Controllers
 {
-    // Bu etiket, buranın bir API olduğunu belirtir (Sayfa değil, veri döner)
     [Route("api/[controller]")]
     [ApiController]
     public class TrainersApiController : ControllerBase
@@ -17,27 +16,30 @@ namespace FitnessSalonu.Controllers
             _context = context;
         }
 
-        // 1. TÜM ANTRENÖRLERİ GETİREN API (LINQ Select Kullanımı)
+        // 1. TÜM ANTRENÖRLERİ GETİREN API
         // İstek Adresi: GET /api/TrainersApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetTrainers()
         {
-            // Veritabanından sadece gerekli bilgileri (Ad, Uzmanlık, Salon Adı) çekiyoruz.
+            // Artık Expertise (string) yok, GymService.Name (ilişki) var.
             var trainers = await _context.Trainers
-                .Include(t => t.Gym) // İlişkili Salon verisini dahil et
+                .Include(t => t.Gym)        // Salon bilgisini dahil et
+                .Include(t => t.GymService) // Hizmet (Uzmanlık) bilgisini dahil et
                 .Select(t => new
                 {
                     Id = t.Id,
                     FullName = t.FullName,
-                    Expertise = t.Expertise,
-                    GymName = t.Gym.Name
+                    // Eğer Hizmet atanmamışsa hata vermesin diye kontrol koyuyoruz:
+                    Expertise = t.GymService != null ? t.GymService.Name : "Belirtilmemiş",
+                    GymName = t.Gym != null ? t.Gym.Name : "Belirtilmemiş",
+                    WorkingHours = t.WorkingHours
                 })
                 .ToListAsync();
 
             return Ok(trainers);
         }
 
-        // 2. FİLTRELEME YAPAN API (LINQ Where Kullanımı)
+        // 2. FİLTRELEME YAPAN API (Uzmanlık Alanına Göre)
         // İstek Adresi: GET /api/TrainersApi/search?skill=Yoga
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<object>>> SearchTrainers(string skill)
@@ -47,14 +49,16 @@ namespace FitnessSalonu.Controllers
                 return BadRequest("Lütfen aranacak bir uzmanlık alanı girin. (Örn: ?skill=Pilates)");
             }
 
-            // Girilen kelimeye göre filtreleme yapıyoruz
+            // Girilen kelimeyi GymService tablosundaki Name alanında arıyoruz
             var result = await _context.Trainers
-                .Where(t => t.Expertise.ToLower().Contains(skill.ToLower()))
+                .Include(t => t.Gym)
+                .Include(t => t.GymService)
+                .Where(t => t.GymService != null && t.GymService.Name.ToLower().Contains(skill.ToLower()))
                 .Select(t => new
                 {
                     t.FullName,
-                    t.Expertise,
-                    GymName = t.Gym.Name
+                    Expertise = t.GymService.Name,
+                    GymName = t.Gym != null ? t.Gym.Name : "Belirtilmemiş"
                 })
                 .ToListAsync();
 

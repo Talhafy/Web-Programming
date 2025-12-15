@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitnessSalonu.Data;
 using FitnessSalonu.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitnessSalonu.Controllers
 {
+    [Authorize(Roles = "Admin")] // Sadece Adminler erişebilir
     public class TrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +24,11 @@ namespace FitnessSalonu.Controllers
         // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Trainers.Include(t => t.Gym);
-            return View(await applicationDbContext.ToListAsync());
+            // Hem Salonu hem de Hizmeti (Uzmanlığı) dahil ediyoruz
+            var trainers = _context.Trainers
+                .Include(t => t.Gym)
+                .Include(t => t.GymService);
+            return View(await trainers.ToListAsync());
         }
 
         // GET: Trainers/Details/5
@@ -36,6 +41,7 @@ namespace FitnessSalonu.Controllers
 
             var trainer = await _context.Trainers
                 .Include(t => t.Gym)
+                .Include(t => t.GymService)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (trainer == null)
             {
@@ -48,20 +54,20 @@ namespace FitnessSalonu.Controllers
         // GET: Trainers/Create
         public IActionResult Create()
         {
+            // Sadece Salonları gönderiyoruz. Hizmetler, salon seçilince AJAX ile gelecek.
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name");
             return View();
         }
 
         // POST: Trainers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // POST: Trainers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise,GymId")] Trainer trainer)
+        // DİKKAT: Expertise YOK, GymServiceId VAR. WorkingHours EKLENDİ.
+        public async Task<IActionResult> Create([Bind("Id,FullName,WorkingHours,GymId,GymServiceId")] Trainer trainer)
         {
-            // 🔴 BU SATIRI EKLE: Gym nesnesinin boş olmasını sorun etme diyoruz.
+            // İlişkili tablo hatalarını yoksay (Validasyon için)
             ModelState.Remove("Gym");
+            ModelState.Remove("GymService");
 
             if (ModelState.IsValid)
             {
@@ -70,7 +76,7 @@ namespace FitnessSalonu.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Hata varsa tekrar formu doldur
+            // Hata olursa listeyi tekrar doldur
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
             return View(trainer);
         }
@@ -88,21 +94,26 @@ namespace FitnessSalonu.Controllers
             {
                 return NotFound();
             }
+
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
+            // Düzenleme sayfasında mevcut hizmeti seçili getirmek için:
+            ViewData["GymServiceId"] = new SelectList(_context.GymServices.Where(s => s.GymId == trainer.GymId), "Id", "Name", trainer.GymServiceId);
+
             return View(trainer);
         }
 
         // POST: Trainers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,GymId")] Trainer trainer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,WorkingHours,GymId,GymServiceId")] Trainer trainer)
         {
             if (id != trainer.Id)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("Gym");
+            ModelState.Remove("GymService");
 
             if (ModelState.IsValid)
             {
@@ -138,6 +149,7 @@ namespace FitnessSalonu.Controllers
 
             var trainer = await _context.Trainers
                 .Include(t => t.Gym)
+                .Include(t => t.GymService)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (trainer == null)
             {
@@ -165,6 +177,20 @@ namespace FitnessSalonu.Controllers
         private bool TrainerExists(int id)
         {
             return _context.Trainers.Any(e => e.Id == id);
+        }
+
+        // ============================================================
+        // 🔴 AJAX API (BU KISIM EKLENDİ)
+        // ============================================================
+        [HttpGet]
+        public JsonResult GetServicesByGym(int gymId)
+        {
+            // Seçilen salona ait hizmetleri JSON olarak döndürür
+            var services = _context.GymServices
+                .Where(s => s.GymId == gymId)
+                .Select(s => new { id = s.Id, name = s.Name })
+                .ToList();
+            return Json(services);
         }
     }
 }

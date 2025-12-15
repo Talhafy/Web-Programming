@@ -1,53 +1,52 @@
 ﻿@model IEnumerable<FitnessSalonu.Models.GymService>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hizmetlerimiz";
 }
 
-<h1>Index</h1>
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h5 class="text-warning text-uppercase ls-2 mb-2">Programlar</h5>
+            <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">HİZMETLER & <span class="text-warning">FİYATLAR</span></h1>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm hover-scale">
+                <i class="fas fa-plus me-2"></i> YENİ HİZMET EKLE
+            </a>
+        }
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DurationMinutes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gym)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DurationMinutes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gym.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 col-lg-4 wow fadeInUp">
+                <div class="card bg-dark text-white border-0 shadow-lg h-100 position-relative" style="border-bottom: 4px solid #ffc107 !important;">
+                    <div class="position-absolute top-0 end-0 bg-warning text-dark fw-bold px-3 py-1 rounded-bottom-start shadow">
+                        @item.Price ₺
+                    </div>
+                    <div class="card-body p-4 pt-5">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="btn-square rounded bg-warning bg-opacity-10 text-warning me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-dumbbell fa-lg"></i>
+                            </div>
+                            <h3 class="fw-bold m-0" style="font-family: 'Oswald';">@item.Name</h3>
+                        </div>
+                        <ul class="list-unstyled text-secondary mb-4">
+                            <li class="mb-2"><i class="far fa-clock text-warning me-2"></i> Süre: <strong class="text-white">@item.DurationMinutes Dk</strong></li>
+                            <li><i class="fas fa-map-pin text-warning me-2"></i> Salon: <strong class="text-white">@(item.Gym != null ? item.Gym.Name : "-")</strong></li>
+                        </ul>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="d-flex gap-2 border-top border-secondary pt-3 mt-auto">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm w-100 rounded-pill">Düzenle</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm w-100 rounded-pill">Sil</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

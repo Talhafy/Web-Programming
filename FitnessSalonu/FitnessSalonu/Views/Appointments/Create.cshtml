@@ -4,37 +4,63 @@
     ViewData["Title"] = "Randevu Al";
 }
 
-<div class="container mt-4">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h4>📅 Yeni Randevu Oluştur</h4>
+            <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-black border-bottom border-warning p-4">
+                    <h3 class="fw-bold m-0 text-warning text-uppercase">
+                        <i class="fas fa-calendar-check me-2"></i>YENİ RANDEVU
+                    </h3>
                 </div>
-                <div class="card-body">
+
+                <div class="card-body p-5">
                     <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div asp-validation-summary="All" class="text-danger mb-3 small fw-bold"></div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Antrenör Seçiniz</label>
-                            <select asp-for="TrainerId" class="form-control" asp-items="ViewBag.TrainerId"></select>
+                        <div class="mb-4">
+                            <label class="form-label text-warning fw-bold small text-uppercase ls-1">1. Salon Seçiniz</label>
+
+                            <select id="GymSelector" class="form-select bg-secondary text-white border-0 py-3">
+                                <option value="" disabled selected>-- Bir Salon Seçin --</option>
+
+                                @if (ViewData["Gyms"] != null)
+                                {
+                                    @foreach (var gym in (IEnumerable<FitnessSalonu.Models.Gym>)ViewData["Gyms"])
+                                    {
+                                        <option value="@gym.Id">@gym.Name</option>
+                                    }
+                                }
+                            </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Hizmet Seçiniz</label>
-                            <select asp-for="GymServiceId" class="form-control" asp-items="ViewBag.GymServiceId"></select>
+                        <div class="mb-4">
+                            <label asp-for="GymServiceId" class="form-label text-warning fw-bold small text-uppercase ls-1">2. Hizmet Seçiniz</label>
+                            <select asp-for="GymServiceId" id="ServiceSelector" class="form-select bg-secondary text-white border-0 py-3" disabled>
+                                <option value="" disabled selected>-- Önce Salon Seçin --</option>
+                            </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Tarih ve Saat</label>
-                            <input asp-for="AppointmentDate" class="form-control" type="datetime-local"
-                                   min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
-                            <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                        <div class="mb-4">
+                            <label asp-for="TrainerId" class="form-label text-warning fw-bold small text-uppercase ls-1">3. Antrenör Seçiniz</label>
+                            <select asp-for="TrainerId" id="TrainerSelector" class="form-select bg-secondary text-white border-0 py-3" disabled>
+                                <option value="" disabled selected>-- Önce Hizmet Seçin --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label asp-for="AppointmentDate" class="form-label text-warning fw-bold small text-uppercase ls-1">4. Tarih ve Saat</label>
+                            <input asp-for="AppointmentDate" class="form-control bg-secondary text-white border-0 py-3"
+                                   type="datetime-local"
+                                   value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                   style="color-scheme: dark;" />
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">Randevuyu Onayla</button>
-                            <a asp-action="Index" class="btn btn-secondary">İptal</a>
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold rounded-pill text-dark shadow-sm hover-scale">
+                                RANDEVUYU ONAYLA
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-light rounded-pill hover-scale">Vazgeç</a>
                         </div>
                     </form>
                 </div>
@@ -42,3 +68,84 @@
         </div>
     </div>
 </div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.2s;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // Salon Değişince -> Hizmetleri Getir
+            $("#GymSelector").change(function () {
+                var gymId = $(this).val();
+
+                // Diğer kutuları sıfırla
+                $("#ServiceSelector").empty().append('<option>Yükleniyor...</option>').prop('disabled', true);
+                $("#TrainerSelector").empty().append('<option>-- Önce Hizmet Seçin --</option>').prop('disabled', true);
+
+                $.ajax({
+                    url: '/Appointments/GetServicesByGym',
+                    type: 'GET',
+                    data: { gymId: gymId },
+                    success: function (data) {
+                        var serviceSel = $("#ServiceSelector");
+                        serviceSel.empty().append('<option value="" disabled selected>-- Bir Hizmet Seçin --</option>');
+
+                        if(data.length === 0) {
+                             serviceSel.append('<option disabled>Bu salonda hizmet yok</option>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                serviceSel.append('<option value="' + item.id + '">' + item.name + ' (' + item.price + '₺)</option>');
+                            });
+                            serviceSel.prop('disabled', false);
+                        }
+                    },
+                    error: function() {
+                        alert("Hizmetler yüklenemedi. Lütfen tekrar deneyin.");
+                    }
+                });
+            });
+
+            // Hizmet Değişince -> Uygun Hocaları Getir
+            $("#ServiceSelector").change(function () {
+                var serviceId = $(this).val();
+                var gymId = $("#GymSelector").val();
+
+                $("#TrainerSelector").empty().append('<option>Aranıyor...</option>').prop('disabled', true);
+
+                $.ajax({
+                    url: '/Appointments/GetTrainersByService',
+                    type: 'GET',
+                    data: { gymId: gymId, serviceId: serviceId },
+                    success: function (data) {
+                        var trainerSel = $("#TrainerSelector");
+                        trainerSel.empty().append('<option value="" disabled selected>-- Eğitmen Seçin --</option>');
+
+                        if (data.length === 0) {
+                            trainerSel.append('<option value="" disabled>Bu hizmet için uygun hoca yok!</option>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                trainerSel.append('<option value="' + item.id + '">' + item.fullName + '</option>');
+                            });
+                            trainerSel.prop('disabled', false);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

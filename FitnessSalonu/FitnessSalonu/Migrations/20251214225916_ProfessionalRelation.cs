@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FitnessSalonu.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ProfessionalRelation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -201,13 +201,19 @@ namespace FitnessSalonu.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    Expertise = table.Column<string>(type: "text", nullable: false),
                     WorkingHours = table.Column<int>(type: "integer", nullable: false),
-                    GymId = table.Column<int>(type: "integer", nullable: false)
+                    GymId = table.Column<int>(type: "integer", nullable: false),
+                    GymServiceId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trainers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trainers_GymServices_GymServiceId",
+                        column: x => x.GymServiceId,
+                        principalTable: "GymServices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Trainers_Gyms_GymId",
                         column: x => x.GymId,
@@ -312,6 +318,11 @@ namespace FitnessSalonu.Migrations
                 name: "IX_Trainers_GymId",
                 table: "Trainers",
                 column: "GymId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainers_GymServiceId",
+                table: "Trainers",
+                column: "GymServiceId");
         }
 
         /// <inheritdoc />
@@ -336,9 +347,6 @@ namespace FitnessSalonu.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "GymServices");
-
-            migrationBuilder.DropTable(
                 name: "Trainers");
 
             migrationBuilder.DropTable(
@@ -346,6 +354,9 @@ namespace FitnessSalonu.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "GymServices");
 
             migrationBuilder.DropTable(
                 name: "Gyms");

@@ -1,42 +1,114 @@
 ﻿@model FitnessSalonu.Models.Trainer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Yeni Eğitmen Ekle";
 }
 
-<h1>Create</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-black border-bottom border-warning p-4">
+                    <h3 class="fw-bold m-0 text-warning text-uppercase"><i class="fas fa-user-plus me-2"></i>Yeni Eğitmen</h3>
+                </div>
+                <div class="card-body p-5">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<h4>Trainer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+                        <div class="mb-4">
+                            <label asp-for="FullName" class="form-label text-warning fw-bold small text-uppercase ls-1">Ad Soyad</label>
+                            <input asp-for="FullName" class="form-control bg-secondary text-white border-0 py-3" placeholder="Örn: Ahmet Yılmaz" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="WorkingHours" class="form-label text-warning fw-bold small text-uppercase ls-1">Günlük Çalışma Süresi (Saat)</label>
+                            <input asp-for="WorkingHours" type="number" class="form-control bg-secondary text-white border-0 py-3" value="8" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="GymId" class="form-label text-warning fw-bold small text-uppercase ls-1">Atanacak Salon</label>
+                            <select asp-for="GymId" id="GymSelector" class="form-select bg-secondary text-white border-0 py-3" asp-items="ViewBag.GymId">
+                                <option value="" disabled selected>-- Önce Salon Seçiniz --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label asp-for="GymServiceId" class="form-label text-warning fw-bold small text-uppercase ls-1">Uzmanlık Alanı (Hizmet)</label>
+
+                            <select asp-for="GymServiceId" id="ServiceSelector" class="form-select bg-secondary text-white border-0 py-3" disabled>
+                                <option value="" disabled selected>-- Salon Seçilmesini Bekliyor --</option>
+                            </select>
+                            <span asp-validation-for="GymServiceId" class="text-danger small"></span>
+
+                            <small class="text-secondary mt-2 d-block" style="font-size: 0.8em;">
+                                <i class="fas fa-info-circle me-1"></i> Salonu seçtiğinizde, o salondaki hizmetler buraya yüklenecektir.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold rounded-pill text-dark hover-scale">KAYDET</button>
+                            <a asp-action="Index" class="btn btn-outline-light rounded-pill">Listeye Dön</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Expertise" class="control-label"></label>
-                <input asp-for="Expertise" class="form-control" />
-                <span asp-validation-for="Expertise" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GymId" class="control-label"></label>
-                <select asp-for="GymId" class ="form-control" asp-items="ViewBag.GymId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .hover-scale:hover {
+        transform: scale(1.02);
+        transition: 0.3s;
+    }
+    /* Select ok işaretini beyaz yap */
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    }
+</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Salon (Gym) değiştiğinde çalışır
+            $("#GymSelector").change(function () {
+                var gymId = $(this).val();
+                var serviceSelect = $("#ServiceSelector");
+
+                // Kutuyu temizle ve "Yükleniyor" yaz
+                serviceSelect.empty().append('<option>Yükleniyor...</option>').prop('disabled', true);
+
+                // AJAX ile Controller'a git ve hizmetleri al
+                $.ajax({
+                    url: '/Trainers/GetServicesByGym', // Controller'daki metodumuz
+                    type: 'GET',
+                    data: { gymId: gymId },
+                    success: function (data) {
+                        serviceSelect.empty();
+                        serviceSelect.append('<option value="" disabled selected>-- Hizmet Seçiniz --</option>');
+
+                        if (data.length === 0) {
+                            serviceSelect.append('<option value="" disabled>Bu salonda henüz hizmet yok!</option>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                // Gelen veriyi kutuya ekle
+                                serviceSelect.append('<option value="' + item.id + '">' + item.name + '</option>');
+                            });
+                            // Kutuyu aktif hale getir
+                            serviceSelect.prop('disabled', false);
+                        }
+                    },
+                    error: function () {
+                        alert("Hizmetler yüklenirken bir hata oluştu!");
+                        serviceSelect.empty().append('<option>Hata!</option>');
+                    }
+                });
+            });
+        });
+    </script>
 }

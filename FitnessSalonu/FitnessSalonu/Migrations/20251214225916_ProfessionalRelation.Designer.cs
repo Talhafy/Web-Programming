@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FitnessSalonu.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251214195944_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251214225916_ProfessionalRelation")]
+    partial class ProfessionalRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,15 +124,14 @@ namespace FitnessSalonu.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Expertise")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("GymId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GymServiceId")
                         .HasColumnType("integer");
 
                     b.Property<int>("WorkingHours")
@@ -141,6 +140,8 @@ namespace FitnessSalonu.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GymId");
+
+                    b.HasIndex("GymServiceId");
 
                     b.ToTable("Trainers");
                 });
@@ -387,7 +388,15 @@ namespace FitnessSalonu.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FitnessSalonu.Models.GymService", "GymService")
+                        .WithMany()
+                        .HasForeignKey("GymServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Gym");
+
+                    b.Navigation("GymService");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

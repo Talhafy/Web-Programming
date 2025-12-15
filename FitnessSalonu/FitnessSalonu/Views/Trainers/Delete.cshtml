@@ -1,39 +1,33 @@
 ﻿@model FitnessSalonu.Models.Trainer
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eğitmen Sil";
 }
 
-<h1>Delete</h1>
+<div class="container py-5">
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger border-bottom border-0 p-4 text-center">
+            <h3 class="fw-bold m-0 text-white text-uppercase"><i class="fas fa-exclamation-triangle me-2"></i>BU EĞİTMEN SİLİNSİN Mİ?</h3>
+        </div>
+        <div class="card-body p-5 text-center">
+            <h2 class="mb-4">@Model.FullName</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Trainer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Expertise)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Expertise)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gym)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gym.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <div class="alert alert-warning text-dark border-0">
+                <strong>Dikkat:</strong> Bu eğitmeni silerseniz, ona bağlı randevular da etkilenebilir.
+            </div>
+
+            <div class="bg-secondary bg-opacity-25 rounded p-3 mb-4 text-start">
+                <p class="mb-1"><span class="text-warning">Uzmanlık:</span> @(Model.GymService != null ? Model.GymService.Name : "-")</p>
+                <p class="mb-0"><span class="text-warning">Salon:</span> @(Model.Gym != null ? Model.Gym.Name : "-")</p>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger btn-lg fw-bold rounded-pill">EVET, SİL</button>
+                    <a asp-action="Index" class="btn btn-outline-light rounded-pill">İPTAL</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

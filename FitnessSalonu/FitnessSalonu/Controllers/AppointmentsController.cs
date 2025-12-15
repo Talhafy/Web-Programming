@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims; // Kullanıcı ID'sini bulmak için şart
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitnessSalonu.Data;
 using FitnessSalonu.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FitnessSalonu.Controllers
 {
-    [Authorize] // KİLİT: Giriş yapmayan kimse bu sayfaları göremez!
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,116 +18,111 @@ namespace FitnessSalonu.Controllers
             _context = context;
         }
 
-        // ============================================================
-        // 1. KULLANICI İÇİN: Sadece Kendi Randevularını Görür
-        // ============================================================
+        // KULLANICI İÇİN RANDEVULARIM
         public async Task<IActionResult> Index()
         {
-            // Giriş yapan kullanıcının ID'sini al
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Veritabanından sadece BU KULLANICIYA ait randevuları getir
-            var applicationDbContext = _context.Appointments
-                .Include(a => a.GymService)
+            var appointments = _context.Appointments
                 .Include(a => a.Trainer)
-                .Where(a => a.UserId == userId) // Filtreleme
-                .OrderByDescending(a => a.AppointmentDate); // En yeni en üstte
-
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // ============================================================
-        // 👑 2. ADMIN İÇİN: Tüm Randevuları Görür (Özel Panel)
-        // ============================================================
-        [Authorize(Roles = "Admin")] // Sadece Admin girebilir
-        public async Task<IActionResult> AdminIndex()
-        {
-            var allAppointments = _context.Appointments
                 .Include(a => a.GymService)
-                .Include(a => a.Trainer)
-                .Include(a => a.User) // Üye bilgisini de getir
+                    .ThenInclude(gs => gs.Gym) // Salon bilgisini de çek
+                .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.AppointmentDate);
 
-            return View(await allAppointments.ToListAsync());
+            return View(await appointments.ToListAsync());
         }
 
-        // ============================================================
-        // 3. RANDEVU ALMA SAYFASI (Formu Göster)
-        // ============================================================
+        // YÖNETİCİ İÇİN TÜM RANDEVULAR
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminIndex()
+        {
+            var appointments = _context.Appointments
+                .Include(a => a.User)
+                .Include(a => a.Trainer)
+                .Include(a => a.GymService)
+                .OrderByDescending(a => a.AppointmentDate);
+            return View(await appointments.ToListAsync());
+        }
+
+        // DURUM DEĞİŞTİRME (ONAYLA / REDDET)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeStatus(int id, string status)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment != null)
+            {
+                appointment.Status = status;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(AdminIndex));
+        }
+
+        // ==========================================
+        // 🔴 SORUNU ÇÖZEN KISIM BURASI (GET Create)
+        // ==========================================
         public IActionResult Create()
         {
-            // Açılır kutuları (Dropdown) doldur
-            ViewData["GymServiceId"] = new SelectList(_context.GymServices, "Id", "Name");
-            ViewData["TrainerId"] = new SelectList(_context.Trainers, "Id", "FullName");
+            // Admin yanlışlıkla buraya girerse paneline gönder
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("AdminIndex");
+            }
+
+            // 1. ADIM: Tüm Salonları Çekip Sayfaya Gönderiyoruz!
+            // Bu satır olmazsa ilk kutu BOŞ gelir.
+            ViewData["Gyms"] = _context.Gyms.ToList();
+
+            // Diğer kutular (Hizmet ve Hoca) salon seçilince AJAX ile dolacak.
+            // O yüzden şimdilik boş gönderiyoruz.
+            ViewData["GymServiceId"] = new SelectList(new List<string>());
+            ViewData["TrainerId"] = new SelectList(new List<string>());
+
             return View();
         }
 
-        // ============================================================
-        // 4. RANDEVUYU KAYDET (Çakışma Kontrolü Burada!)
-        // ============================================================
+        // RANDEVU KAYDETME (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TrainerId,GymServiceId,AppointmentDate")] Appointment appointment)
         {
-            // 1. Kullanıcı ID'sini otomatik ekle
+            if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             appointment.UserId = userId;
-            appointment.IsApproved = true; // Otomatik onaylı varsayalım
 
-            // 2. Seçilen hizmetin süresini bul (Bitiş saatini hesaplamak için)
-            var service = await _context.GymServices.FindAsync(appointment.GymServiceId);
+            // Otomatik Durum: Beklemede
+            appointment.Status = "Beklemede";
 
-            if (service != null)
-            {
-                // Başlangıç: Formdan gelen saat
-                // Bitiş: Başlangıç + Hizmet Süresi (dk)
-                DateTime startTime = appointment.AppointmentDate;
-                DateTime endTime = startTime.AddMinutes(service.DurationMinutes);
-
-                // 🔴 ÇAKIŞMA KONTROLÜ 🔴
-                // Veritabanında, seçilen HOCANIN (TrainerId), o saat aralığında başka işi var mı?
-                bool isBusy = await _context.Appointments
-                    .AnyAsync(a => a.TrainerId == appointment.TrainerId &&
-                                   a.AppointmentDate < endTime &&
-                                   a.AppointmentDate.AddMinutes(a.GymService.DurationMinutes) > startTime);
-
-                if (isBusy)
-                {
-                    // Hata Mesajı (Türkçe)
-                    ModelState.AddModelError("", "⚠️ Üzgünüz, seçtiğiniz antrenör bu saat aralığında dolu. Lütfen başka bir saat veya antrenör seçiniz.");
-                }
-            }
-
-            // 3. Validasyon hatalarını temizle (User, Trainer vb. nesneler formdan gelmediği için boş gelebilir, sorun yok)
+            // Validasyon temizliği
             ModelState.Remove("User");
             ModelState.Remove("Trainer");
             ModelState.Remove("GymService");
+            ModelState.Remove("UserId");
+            ModelState.Remove("Status");
 
-            // 4. Hata yoksa KAYDET
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); // Listeye dön
+                return RedirectToAction(nameof(Index));
             }
 
-            // 5. Hata varsa formu tekrar doldurup göster
-            ViewData["GymServiceId"] = new SelectList(_context.GymServices, "Id", "Name", appointment.GymServiceId);
-            ViewData["TrainerId"] = new SelectList(_context.Trainers, "Id", "FullName", appointment.TrainerId);
+            // Hata olursa salonları tekrar yükle ki sayfa bozulmasın
+            ViewData["Gyms"] = _context.Gyms.ToList();
             return View(appointment);
         }
 
-        // ============================================================
-        // 5. SİLME İŞLEMİ (Genellikle Admin veya Randevu Sahibi Yapar)
-        // ============================================================
+        // SİLME EKRANI (Admin İçin)
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
 
             var appointment = await _context.Appointments
+                .Include(a => a.User)
                 .Include(a => a.GymService)
                 .Include(a => a.Trainer)
-                .Include(a => a.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (appointment == null) return NotFound();
@@ -141,21 +132,40 @@ namespace FitnessSalonu.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment != null)
-            {
-                _context.Appointments.Remove(appointment);
-                await _context.SaveChangesAsync();
-            }
+            if (appointment != null) _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminIndex));
+        }
 
-            // Eğer silen kişi Admin ise Admin Listesine, değilse Kendi Listesine dönsün
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction(nameof(AdminIndex));
-            }
-            return RedirectToAction(nameof(Index));
+        // ==========================================
+        // 🔴 AJAX API (Kutuların Dolması İçin Şart)
+        // ==========================================
+
+        // 1. Salon seçilince Hizmetleri getirir
+        [HttpGet]
+        public JsonResult GetServicesByGym(int gymId)
+        {
+            var services = _context.GymServices
+                .Where(s => s.GymId == gymId)
+                .Select(s => new { id = s.Id, name = s.Name, price = s.Price })
+                .ToList();
+            return Json(services);
+        }
+
+        // 2. Hizmet seçilince Hocaları getirir
+        [HttpGet]
+        public JsonResult GetTrainersByService(int gymId, int serviceId)
+        {
+            // YENİ SİSTEM: GymServiceId ile eşleşen hocalar
+            var trainers = _context.Trainers
+                .Where(t => t.GymId == gymId && t.GymServiceId == serviceId)
+                .Select(t => new { id = t.Id, fullName = t.FullName })
+                .ToList();
+            return Json(trainers);
         }
     }
 }

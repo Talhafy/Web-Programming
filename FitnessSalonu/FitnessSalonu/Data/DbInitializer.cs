@@ -1,43 +1,42 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace FitnessSalonu.Data
 {
     public static class DbInitializer
     {
-        public static async Task SeedRolesAndAdminAsync(IServiceProvider service)
+        public static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
         {
-            var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = service.GetRequiredService<UserManager<IdentityUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            // =====================
-            // ADMIN ROLE
-            // =====================
-            if (!await roleManager.RoleExistsAsync("Admin"))
+            // Rolleri Oluştur
+            string[] roleNames = { "Admin", "Member" };
+            foreach (var roleName in roleNames)
             {
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
             }
 
-            // =====================
-            // ADMIN USER
-            // =====================
-            var adminEmail = "talha.yildirim3ogr@sakarya.edu.tr";
+            // Admin Kullanıcısı (Şifre: sau)
+            var adminEmail = "talha.yildirim3@ogr.sakarya.edu.tr";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
             if (adminUser == null)
             {
-                adminUser = new IdentityUser
+                var newAdmin = new IdentityUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
                     EmailConfirmed = true
                 };
 
-                var result = await userManager.CreateAsync(adminUser, "sau");
-
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
-                }
+                // İŞTE BURASI: Şifreyi 'sau' yaptık
+                await userManager.CreateAsync(newAdmin, "sau");
+                await userManager.AddToRoleAsync(newAdmin, "Admin");
             }
         }
     }

@@ -2,68 +2,104 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="container-fluid p-0 mb-5">
-    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 100vh; min-height: 600px;">
-                <img class="w-100 h-100" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Fitness Gym" style="object-fit: cover; filter: brightness(0.4);">
+<div class="container-fluid p-0 mb-5 border-bottom border-warning border-2"
+     style="height: 100vh; min-height: 600px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+            url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920&auto=format&fit=crop');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;">
 
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 900px;">
-                        <h5 class="text-white text-uppercase mb-3 animated slideInDown" style="letter-spacing: 3px;">POWERFIT GYM & FITNESS</h5>
-                        <h1 class="display-2 text-white text-uppercase mb-md-4 animated zoomIn" style="font-family: 'Oswald', sans-serif; font-weight: 700;">
-                            ASLA <span class="text-warning">PES ETME</span>
-                        </h1>
-                        <p class="lead text-white mb-4 opacity-75">Yapay zeka destekli antrenman programları ve profesyonel koçlar ile hedefine ulaş.</p>
+    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center px-3">
 
-                        <div class="d-flex gap-3 justify-content-center">
-                            <a href="/AI" class="btn btn-warning py-md-3 px-md-5 rounded-pill fw-bold shadow-lg">
-                                <i class="fas fa-robot me-2"></i>AI KOÇ İLE TANIŞ
-                            </a>
-                            <a href="/Appointments/Create" class="btn btn-outline-light py-md-3 px-md-5 rounded-pill fw-bold shadow-lg">
-                                <i class="far fa-calendar-alt me-2"></i>RANDEVU AL
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <h5 class="text-white text-uppercase mb-3 fw-bold animated slideInDown" style="letter-spacing: 3px;">
+            <i class="fas fa-dumbbell text-warning me-2"></i> POWERFIT GYM & FITNESS
+        </h5>
+
+        <h1 class="display-1 text-white text-uppercase mb-4 animated slideInDown fw-bolder" style="font-family: 'Oswald', sans-serif; text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">
+            ASLA <span class="text-warning">PES ETME</span>
+        </h1>
+
+        <p class="fs-4 text-white mb-5 col-md-8 animated slideInDown" style="text-shadow: 1px 1px 5px rgba(0,0,0,0.8);">
+            Yapay zeka destekli antrenman programları ve profesyonel koçlar ile hedefine ulaş.
+            <br />Sınırlarını zorlamak için doğru yerdesin.
+        </p>
+
+        <div class="d-flex gap-3 justify-content-center animated fadeInUp">
+
+            <a href="/AI" class="btn btn-warning py-3 px-5 rounded-pill fw-bold shadow-lg hover-scale text-dark">
+                <i class="fas fa-robot me-2"></i>AI KOÇ İLE TANIŞ
+            </a>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="/Appointments/AdminIndex" class="btn btn-outline-light py-3 px-5 rounded-pill fw-bold shadow-lg hover-scale backdrop-blur">
+                    <i class="fas fa-tasks me-2"></i>RANDEVU YÖNETİMİ
+                </a>
+            }
+            else
+            {
+                <a href="/Appointments/Create" class="btn btn-outline-light py-3 px-5 rounded-pill fw-bold shadow-lg hover-scale backdrop-blur">
+                    <i class="far fa-calendar-alt me-2"></i>RANDEVU AL
+                </a>
+            }
         </div>
     </div>
 </div>
 
-<div class="container-fluid py-5 bg-black">
+<style>
+    /* Google Fonts Import İşlemini Kaldırdım (Zaten Layout'ta varsa gerek yok) */
+    /* Veya illa eklemek istersen Razor'dan saklamak için @@import yazabilirsin ama gerek yok */
+
+    /* Basit Hover Efekti */
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+    /* Cam Efekti (Buton Arkası) */
+    .backdrop-blur {
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+</style>
+
+<div class="container-fluid bg-dark text-white py-5">
     <div class="container">
-        <div class="row g-5">
+        <div class="row g-4">
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
-                    <div class="card-body text-center p-5">
-                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-brain fa-2x text-dark"></i>
-                        </div>
-                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">AI Planlama</h3>
-                        <p class="text-secondary">Vücut kitle indeksine göre saniyeler içinde sana özel beslenme ve antrenman programı oluşturur.</p>
+                <div class="d-flex bg-secondary bg-opacity-10 rounded p-4 h-100 border border-secondary border-opacity-25 hover-scale">
+                    <div class="flex-shrink-0 btn-square bg-warning rounded-circle me-3" style="width: 60px; height: 60px; display:flex; align-items:center; justify-content:center;">
+                        <i class="fa fa-dumbbell text-dark fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-warning mb-3">Modern Ekipmanlar</h5>
+                        <p>Son teknoloji fitness aletleri ile kas gelişimini maksimum seviyeye çıkar.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
-                    <div class="card-body text-center p-5">
-                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-dumbbell fa-2x text-dark"></i>
-                        </div>
-                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">Uzman Koçlar</h3>
-                        <p class="text-secondary">Alanında sertifikalı, profesyonel antrenörlerimizle birebir çalışma fırsatı yakala.</p>
+                <div class="d-flex bg-secondary bg-opacity-10 rounded p-4 h-100 border border-secondary border-opacity-25 hover-scale">
+                    <div class="flex-shrink-0 btn-square bg-warning rounded-circle me-3" style="width: 60px; height: 60px; display:flex; align-items:center; justify-content:center;">
+                        <i class="fa fa-users text-dark fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-warning mb-3">Profesyonel Eğitmenler</h5>
+                        <p>Alanında uzman hocalarımızla birebir dersler ve kişisel programlar.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="card bg-dark border-0 h-100 shadow-lg" style="border-bottom: 3px solid #ffc107 !important;">
-                    <div class="card-body text-center p-5">
-                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-mobile-alt fa-2x text-dark"></i>
-                        </div>
-                        <h3 class="text-white mb-3" style="font-family: 'Oswald';">Online Randevu</h3>
-                        <p class="text-secondary">İstediğin hizmeti, istediğin saatte rezerve et. Çakışma yok, bekleme yok.</p>
+                <div class="d-flex bg-secondary bg-opacity-10 rounded p-4 h-100 border border-secondary border-opacity-25 hover-scale">
+                    <div class="flex-shrink-0 btn-square bg-warning rounded-circle me-3" style="width: 60px; height: 60px; display:flex; align-items:center; justify-content:center;">
+                        <i class="fa fa-heartbeat text-dark fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-warning mb-3">Sağlık & Beslenme</h5>
+                        <p>Sadece antrenman değil, beslenme danışmanlığı ile tam destek.</p>
                     </div>
                 </div>
             </div>

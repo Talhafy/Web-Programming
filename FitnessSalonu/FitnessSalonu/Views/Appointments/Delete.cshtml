@@ -1,0 +1,37 @@
+﻿@model FitnessSalonu.Models.Appointment
+
+@{
+    ViewData["Title"] = "Randevu Sil";
+}
+
+<div class="container py-5">
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger p-4 text-center">
+            <h3 class="fw-bold m-0 text-white">BU RANDEVUYU SİL?</h3>
+        </div>
+        <div class="card-body p-5 text-center">
+            <h4 class="text-warning">@Model.User.UserName</h4>
+            <p class="mb-4 text-secondary">adlı üyenin randevusu silinecek.</p>
+
+            <ul class="list-group list-group-flush bg-dark text-start mb-4 rounded">
+                <li class="list-group-item bg-secondary bg-opacity-10 text-white border-secondary">
+                    <i class="fas fa-dumbbell text-warning me-2"></i> @Model.GymService?.Name
+                </li>
+                <li class="list-group-item bg-secondary bg-opacity-10 text-white border-secondary">
+                    <i class="fas fa-user-ninja text-warning me-2"></i> @Model.Trainer?.FullName
+                </li>
+                <li class="list-group-item bg-secondary bg-opacity-10 text-white border-secondary">
+                    <i class="fas fa-calendar-alt text-warning me-2"></i> @Model.AppointmentDate.ToString("dd.MM.yyyy HH:mm")
+                </li>
+            </ul>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex gap-2 justify-content-center">
+                    <button type="submit" class="btn btn-danger btn-lg rounded-pill px-4">Evet, Sil</button>
+                    <a asp-action="AdminIndex" class="btn btn-outline-light btn-lg rounded-pill px-4">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
