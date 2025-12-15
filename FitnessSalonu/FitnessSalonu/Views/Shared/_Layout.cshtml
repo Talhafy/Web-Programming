@@ -73,6 +73,12 @@
             background-color: #000;
             border-top: 3px solid #ffc107;
         }
+
+            /* Footer Link Hover */
+            footer a.text-white:hover {
+                color: #ffc107 !important;
+                transition: color 0.3s ease;
+            }
     </style>
 </head>
 <body>
@@ -130,10 +136,18 @@
         <div class="container text-center">
             <h2 class="text-warning mb-3" style="font-family: 'Oswald';">POWERFIT GYM</h2>
             <p class="mb-4 opacity-75">Sınırlarını zorlamak ve en iyi versiyonuna ulaşmak için doğru yerdesin.</p>
-            <div class="d-flex justify-content-center gap-3 mb-4">
-                <a href="#" class="btn btn-outline-warning btn-sm rounded-circle" style="width: 40px; height: 40px; display: grid; place-items: center;"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="btn btn-outline-warning btn-sm rounded-circle" style="width: 40px; height: 40px; display: grid; place-items: center;"><i class="fab fa-twitter"></i></a>
+
+            <div class="d-flex flex-column align-items-center justify-content-center gap-2 mb-4">
+                <div>
+                    <i class="fas fa-envelope text-warning me-2"></i>
+                    <a href="mailto:talha.yildirim3@ogr.sakarya.edu.tr" class="text-white text-decoration-none">talha.yildirim3@ogr.sakarya.edu.tr</a>
+                </div>
+                <div>
+                    <i class="fas fa-phone text-warning me-2"></i>
+                    <a href="tel:+905538376430" class="text-white text-decoration-none">+90 553 837 64 30</a>
+                </div>
             </div>
+
             <p class="mb-0 opacity-50 small">&copy; 2025 PowerFit Gym. Tüm Hakları Saklıdır.</p>
         </div>
     </footer>

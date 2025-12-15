@@ -1,32 +1,60 @@
 ﻿@page
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Delete Personal Data";
+    ViewData["Title"] = "Hesabı Sil";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
-
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-    </p>
-</div>
-
-<div>
-    <form id="delete-user" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-        @if (Model.RequirePassword)
-        {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label asp-for="Input.Password" class="form-label"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-danger p-4 text-center">
+                <h3 class="fw-bold m-0 text-white text-uppercase">
+                    <i class="fas fa-exclamation-triangle me-2"></i>HESAP SİLİNİYOR
+                </h3>
             </div>
-        }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
-    </form>
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h4 class="text-white">Emin misiniz?</h4>
+                    <p class="text-secondary">Bu işlem <strong>GERİ ALINAMAZ</strong>. Tüm randevularınız ve verileriniz kalıcı olarak silinecektir.</p>
+                </div>
+
+                <form id="delete-user" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                    @if (Model.RequirePassword)
+                    {
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.Password" class="form-control bg-secondary text-white border-0" autocomplete="current-password" aria-required="true" placeholder="Şifrenizi girin" />
+                            <label asp-for="Input.Password" class="text-light">Onaylamak için şifrenizi girin</label>
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-danger btn-lg fw-bold rounded-pill hover-scale" type="submit">
+                            EVET, HESABIMI SİL
+                        </button>
+                        <a asp-page="PersonalData" class="btn btn-outline-light rounded-pill">Vazgeç</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .hover-scale:hover {
+        transform: scale(1.02);
+        transition: 0.3s;
+    }
+
+    .form-control:focus {
+        background-color: #495057;
+        color: white;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

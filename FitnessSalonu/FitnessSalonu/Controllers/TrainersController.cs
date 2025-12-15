@@ -82,22 +82,17 @@ namespace FitnessSalonu.Controllers
         }
 
         // GET: Trainers/Edit/5
+        // GET: Trainers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var trainer = await _context.Trainers.FindAsync(id);
-            if (trainer == null)
-            {
-                return NotFound();
-            }
+            if (trainer == null) return NotFound();
 
+            // Sadece Salon listesini gönderiyoruz.
+            // Hizmet listesini JavaScript (AJAX) ile sayfa açılınca dolduracağız.
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
-            // Düzenleme sayfasında mevcut hizmeti seçili getirmek için:
-            ViewData["GymServiceId"] = new SelectList(_context.GymServices.Where(s => s.GymId == trainer.GymId), "Id", "Name", trainer.GymServiceId);
 
             return View(trainer);
         }

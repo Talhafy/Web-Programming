@@ -1,49 +1,36 @@
 ﻿@model IEnumerable<FitnessSalonu.Models.Gym>
 
 @{
-    ViewData["Title"] = "Salonlarımız";
+    ViewData["Title"] = "Salonlar";
 }
 
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-5">
-        <div>
-            <h5 class="text-warning text-uppercase ls-2 mb-2">Lokasyonlar</h5>
-            <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">SPOR <span class="text-warning">SALONLARIMIZ</span></h1>
-        </div>
-        @if (User.IsInRole("Admin"))
-        {
-            <a asp-action="Create" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm hover-scale">
-                <i class="fas fa-plus me-2"></i> YENİ SALON EKLE
-            </a>
-        }
+        <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">SALONLAR</h1>
+        <a asp-action="Create" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
+            <i class="fas fa-plus me-2"></i> YENİ SALON
+        </a>
     </div>
 
     <div class="row g-4">
         @foreach (var item in Model)
         {
-            <div class="col-md-6 col-lg-4 wow fadeInUp">
+            <div class="col-md-6 col-lg-4">
                 <div class="card bg-dark text-white border-0 shadow-lg h-100" style="border-bottom: 4px solid #ffc107 !important;">
-                    <div class="card-body p-4 text-center">
-                        <div class="btn-square rounded-circle bg-warning mx-auto mb-4" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-building fa-2x text-dark"></i>
-                        </div>
-                        <h3 class="fw-bold mb-3" style="font-family: 'Oswald';">@item.Name</h3>
+                    <div class="card-body p-4">
+                        <h3 class="fw-bold mb-3 text-warning">@item.Name</h3>
+                        <p class="text-secondary small mb-3"><i class="fas fa-map-marker-alt me-2"></i>@item.Address</p>
 
-                        <div class="text-secondary mb-3">
-                            <i class="fas fa-map-marker-alt text-warning me-2"></i> @item.Address
-                        </div>
-                        <div class="text-secondary mb-4">
-                            <i class="far fa-clock text-warning me-2"></i> @item.WorkingHours Saat Açık
+                        <div class="bg-black rounded p-3 mb-3 text-center border border-secondary">
+                            <small class="text-white-50 d-block text-uppercase">Çalışma Saatleri</small>
+                            <span class="fw-bold fs-5 text-white">@item.OpeningTime - @item.ClosingTime</span>
                         </div>
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <div class="d-flex justify-content-center gap-2 border-top border-secondary pt-3">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3">Düzenle</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-light btn-sm rounded-pill px-3">Detay</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3">Sil</a>
-                            </div>
-                        }
+                        <div class="d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning rounded-pill flex-fill">Düzenle</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-light rounded-pill flex-fill">Detay</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-pill flex-fill">Sil</a>
+                        </div>
                     </div>
                 </div>
             </div>

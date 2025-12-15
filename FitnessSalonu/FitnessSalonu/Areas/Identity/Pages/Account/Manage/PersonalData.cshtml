@@ -1,26 +1,45 @@
 ﻿@page
 @model PersonalDataModel
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = "Hesap Ayarları";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-danger p-4 text-center">
+                <h3 class="fw-bold m-0 text-white text-uppercase">
+                    <i class="fas fa-user-times me-2"></i>HESABI SİL
+                </h3>
+            </div>
+            <div class="card-body p-5 text-center">
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <h4 class="text-white fw-bold">Hesabınızı silmek istediğinize emin misiniz?</h4>
+                    <p class="text-secondary mt-2">
+                        Bu işlem <strong>geri alınamaz</strong>. Hesabınızı sildiğinizde tüm randevularınız ve kişisel bilgileriniz sistemden kalıcı olarak kaldırılacaktır.
+                    </p>
+                </div>
+
+                <div class="d-grid gap-2 col-md-8 mx-auto">
+                    <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger btn-lg rounded-pill fw-bold hover-scale">
+                        <i class="fas fa-trash-alt me-2"></i> EVET, HESABIMI SİL
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .hover-scale:hover {
+        transform: scale(1.05);
+        transition: 0.3s;
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

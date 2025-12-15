@@ -61,40 +61,39 @@ namespace FitnessSalonu.Controllers
         // ==========================================
         // 🔴 SORUNU ÇÖZEN KISIM BURASI (GET Create)
         // ==========================================
+        // 1. CREATE (GET) METODU
         public IActionResult Create()
         {
-            // Admin yanlışlıkla buraya girerse paneline gönder
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("AdminIndex");
-            }
+            // ❌ ESKİ KOD (SİLİNDİ): if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
+            // ✅ ARTIK ADMİN DE GİREBİLİR.
 
-            // 1. ADIM: Tüm Salonları Çekip Sayfaya Gönderiyoruz!
-            // Bu satır olmazsa ilk kutu BOŞ gelir.
             ViewData["Gyms"] = _context.Gyms.ToList();
-
-            // Diğer kutular (Hizmet ve Hoca) salon seçilince AJAX ile dolacak.
-            // O yüzden şimdilik boş gönderiyoruz.
             ViewData["GymServiceId"] = new SelectList(new List<string>());
             ViewData["TrainerId"] = new SelectList(new List<string>());
 
             return View();
         }
 
-        // RANDEVU KAYDETME (POST)
+        // 2. CREATE (POST) METODU
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TrainerId,GymServiceId,AppointmentDate")] Appointment appointment)
         {
-            if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
+            // ❌ ESKİ KOD (SİLİNDİ): if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
+
+            // Güvenlik Kontrolü
+            if (appointment.TrainerId == 0)
+            {
+                ModelState.AddModelError("TrainerId", "Lütfen geçerli bir antrenör seçiniz.");
+            }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             appointment.UserId = userId;
 
-            // Otomatik Durum: Beklemede
+            // Eğer Admin ekliyorsa direkt "Onaylandı" yapabiliriz veya "Beklemede" bırakabiliriz.
+            // Şimdilik standart "Beklemede" kalsın, admin listeden onaylar.
             appointment.Status = "Beklemede";
 
-            // Validasyon temizliği
             ModelState.Remove("User");
             ModelState.Remove("Trainer");
             ModelState.Remove("GymService");
@@ -105,10 +104,20 @@ namespace FitnessSalonu.Controllers
             {
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // 🔄 YÖNLENDİRME MANTIĞI GÜNCELLENDİ
+                // Admin eklediyse -> Admin Paneline dön
+                // Üye eklediyse -> Randevularım sayfasına dön
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction(nameof(AdminIndex));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
-            // Hata olursa salonları tekrar yükle ki sayfa bozulmasın
             ViewData["Gyms"] = _context.Gyms.ToList();
             return View(appointment);
         }
@@ -151,7 +160,12 @@ namespace FitnessSalonu.Controllers
         {
             var services = _context.GymServices
                 .Where(s => s.GymId == gymId)
-                .Select(s => new { id = s.Id, name = s.Name, price = s.Price })
+                .Select(s => new {
+                    id = s.Id,
+                    name = s.Name,
+                    price = s.Price,
+                    durationMinutes = s.DurationMinutes // <--- İŞTE BU EKSİKTİ!
+                })
                 .ToList();
             return Json(services);
         }
@@ -166,6 +180,67 @@ namespace FitnessSalonu.Controllers
                 .Select(t => new { id = t.Id, fullName = t.FullName })
                 .ToList();
             return Json(trainers);
+        }
+    // ============================================================
+        // 🔴 YENİ: SAAT DİLİMLERİNİ HESAPLAYAN AKILLI MOTOR
+        // ============================================================
+        [HttpGet]
+        public async Task<JsonResult> GetAvailableSlots(int trainerId, int serviceId, string date)
+        {
+            // 1. Gerekli Verileri Çek
+            var trainer = await _context.Trainers.Include(t => t.Gym).FirstOrDefaultAsync(t => t.Id == trainerId);
+            var service = await _context.GymServices.FindAsync(serviceId);
+
+            if (trainer == null || service == null || string.IsNullOrEmpty(date))
+                return Json(new List<string>());
+
+            DateTime selectedDate = DateTime.Parse(date);
+
+            // 2. Salonun Açılış/Kapanış Saatlerini Al
+            TimeSpan openTime = TimeSpan.Parse(trainer.Gym.OpeningTime); // Örn: 09:00
+            TimeSpan closeTime = TimeSpan.Parse(trainer.Gym.ClosingTime); // Örn: 22:00
+            int duration = service.DurationMinutes; // Örn: 60 dk
+
+            // 3. O Gün O Hoca İçin Alınmış Randevuları Bul
+            var existingAppointments = await _context.Appointments
+                .Where(a => a.TrainerId == trainerId && a.AppointmentDate.Date == selectedDate.Date)
+                .Select(a => a.AppointmentDate.TimeOfDay) // Sadece saat kısmını al
+                .ToListAsync();
+
+            // 4. Slotları Oluştur
+            List<string> availableSlots = new List<string>();
+            TimeSpan currentSlot = openTime;
+
+            // Salon kapanana kadar döngü kur
+            while (currentSlot.Add(TimeSpan.FromMinutes(duration)) <= closeTime)
+            {
+                // ÇAKIŞMA KONTROLÜ:
+                // Eğer oluşturduğumuz bu saat diliminde veritabanında kayıt varsa, listeye ekleme.
+                bool isTaken = false;
+
+                // Basit mantık: Eğer o saatte tam başlayan bir randevu varsa doludur.
+                // (Daha gelişmiş mantıkta aralık kontrolü de yapılabilir ama bu ödev için yeterli)
+                foreach (var appointmentTime in existingAppointments)
+                {
+                    // Eğer randevu saati ile şu anki slot aynıysa veya çakışıyorsa
+                    if (appointmentTime == currentSlot)
+                    {
+                        isTaken = true;
+                        break;
+                    }
+                }
+
+                if (!isTaken)
+                {
+                    // Saat formatını güzelleştir (09:00 gibi)
+                    availableSlots.Add(currentSlot.ToString(@"hh\:mm"));
+                }
+
+                // Bir sonraki seansa geç (Hizmet süresi kadar ekle)
+                currentSlot = currentSlot.Add(TimeSpan.FromMinutes(duration));
+            }
+
+            return Json(availableSlots);
         }
     }
 }

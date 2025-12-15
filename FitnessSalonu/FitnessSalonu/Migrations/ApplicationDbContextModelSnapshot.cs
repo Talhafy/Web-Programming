@@ -71,18 +71,19 @@ namespace FitnessSalonu.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClosingTime")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("WorkingHours")
+                    b.Property<string>("OpeningTime")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -373,7 +374,7 @@ namespace FitnessSalonu.Migrations
             modelBuilder.Entity("FitnessSalonu.Models.GymService", b =>
                 {
                     b.HasOne("FitnessSalonu.Models.Gym", "Gym")
-                        .WithMany()
+                        .WithMany("GymServices")
                         .HasForeignKey("GymId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -384,7 +385,7 @@ namespace FitnessSalonu.Migrations
             modelBuilder.Entity("FitnessSalonu.Models.Trainer", b =>
                 {
                     b.HasOne("FitnessSalonu.Models.Gym", "Gym")
-                        .WithMany()
+                        .WithMany("Trainers")
                         .HasForeignKey("GymId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -449,6 +450,13 @@ namespace FitnessSalonu.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FitnessSalonu.Models.Gym", b =>
+                {
+                    b.Navigation("GymServices");
+
+                    b.Navigation("Trainers");
                 });
 #pragma warning restore 612, 618
         }

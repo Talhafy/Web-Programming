@@ -1,45 +1,37 @@
 ﻿@model FitnessSalonu.Models.GymService
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Hizmeti Sil";
 }
 
-<h1>Delete</h1>
+<div class="container py-5">
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger border-0 p-4 text-center">
+            <h3 class="fw-bold m-0 text-white text-uppercase">HİZMET SİLİNSİN Mİ?</h3>
+        </div>
+        <div class="card-body p-5 text-center">
+            <h2 class="mb-4">@Model.Name</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>GymService</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DurationMinutes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DurationMinutes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gym)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gym.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <div class="alert alert-warning text-dark border-0 mb-4">
+                Bu hizmeti silerseniz, bu hizmete ait geçmiş veya gelecek randevu kayıtlarında veri kaybı yaşanabilir.
+            </div>
+
+            <ul class="list-group list-group-flush bg-dark text-start mb-4 rounded">
+                <li class="list-group-item bg-secondary bg-opacity-10 text-white border-secondary">
+                    <span class="text-warning fw-bold">Salon:</span> @Model.Gym?.Name
+                </li>
+                <li class="list-group-item bg-secondary bg-opacity-10 text-white border-secondary">
+                    <span class="text-warning fw-bold">Ücret:</span> @Model.Price ₺
+                </li>
+            </ul>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger btn-lg fw-bold rounded-pill">EVET, SİL</button>
+                    <a asp-action="Index" class="btn btn-outline-light rounded-pill">İPTAL</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

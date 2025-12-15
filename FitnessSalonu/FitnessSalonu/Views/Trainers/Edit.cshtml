@@ -7,41 +7,48 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card bg-dark border-0 shadow-lg rounded-4">
+            <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-black border-bottom border-warning p-4">
-                    <h3 class="fw-bold m-0 text-warning text-uppercase">Eğitmen Düzenle</h3>
+                    <h3 class="fw-bold m-0 text-warning text-uppercase">
+                        <i class="fas fa-user-edit me-2"></i>EĞİTMEN DÜZENLE
+                    </h3>
                 </div>
+
                 <div class="card-body p-5">
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <input type="hidden" asp-for="Id" />
 
                         <div class="mb-4">
-                            <label asp-for="FullName" class="form-label text-warning fw-bold small">Ad Soyad</label>
+                            <label asp-for="FullName" class="form-label text-warning fw-bold small text-uppercase ls-1">Ad Soyad</label>
                             <input asp-for="FullName" class="form-control bg-secondary text-white border-0 py-3" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-4">
-                            <label asp-for="WorkingHours" class="form-label text-warning fw-bold small">Çalışma Saati</label>
+                            <label asp-for="WorkingHours" class="form-label text-warning fw-bold small text-uppercase ls-1">Çalışma Saati</label>
                             <input asp-for="WorkingHours" class="form-control bg-secondary text-white border-0 py-3" />
+                            <span asp-validation-for="WorkingHours" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-4">
-                            <label asp-for="GymId" class="form-label text-warning fw-bold small">Salon</label>
-                            <select asp-for="GymId" class="form-select bg-secondary text-white border-0 py-3" asp-items="ViewBag.GymId"></select>
+                            <label asp-for="GymId" class="form-label text-warning fw-bold small text-uppercase ls-1">Salon</label>
+                            <select asp-for="GymId" id="GymSelector" class="form-select bg-secondary text-white border-0 py-3" asp-items="ViewBag.GymId">
+                                <option value="" disabled>-- Salon Seçiniz --</option>
+                            </select>
                         </div>
 
                         <div class="mb-5">
-                            <label asp-for="GymServiceId" class="form-label text-warning fw-bold small">Uzmanlık (Hizmet)</label>
-                            <select asp-for="GymServiceId" class="form-select bg-secondary text-white border-0 py-3">
-                                <option disabled selected>Lütfen tekrar oluşturunuz (Bu özellik değişti)</option>
+                            <label asp-for="GymServiceId" class="form-label text-warning fw-bold small text-uppercase ls-1">Uzmanlık (Hizmet)</label>
+                            <select asp-for="GymServiceId" id="ServiceSelector" class="form-select bg-secondary text-white border-0 py-3">
+                                <option value="" disabled selected>Yükleniyor...</option>
                             </select>
-                            <small class="text-muted">Not: Salon değişirse hizmeti tekrar seçmeniz gerekebilir.</small>
+                            <span asp-validation-for="GymServiceId" class="text-danger small"></span>
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-warning btn-lg fw-bold rounded-pill text-dark">KAYDET</button>
-                            <a asp-action="Index" class="btn btn-outline-light rounded-pill">Listeye Dön</a>
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold rounded-pill text-dark hover-scale">DEĞİŞİKLİKLERİ KAYDET</button>
+                            <a asp-action="Index" class="btn btn-outline-light rounded-pill">İptal</a>
                         </div>
                     </form>
                 </div>
@@ -49,3 +56,73 @@
         </div>
     </div>
 </div>
+
+<style>
+    .hover-scale:hover {
+        transform: scale(1.02);
+        transition: 0.3s;
+    }
+
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Sayfa açıldığında: Mevcut verileri yükle
+            var initialGymId = $("#GymSelector").val();
+            var initialServiceId = '@Model.GymServiceId'; // Veritabanındaki kayıtlı hizmet ID'si
+
+            if (initialGymId) {
+                loadServices(initialGymId, initialServiceId);
+            }
+
+            // Salon değiştirildiğinde: Listeyi güncelle
+            $("#GymSelector").change(function () {
+                var gymId = $(this).val();
+                loadServices(gymId, null); // Yeni seçim olduğu için seçili hizmet yok
+            });
+
+            // Hizmetleri getiren fonksiyon
+            function loadServices(gymId, selectedId) {
+                var serviceSelect = $("#ServiceSelector");
+
+                // Kutuyu pasife al
+                serviceSelect.prop('disabled', true).empty().append('<option>Yükleniyor...</option>');
+
+                $.ajax({
+                    url: '/Trainers/GetServicesByGym',
+                    type: 'GET',
+                    data: { gymId: gymId },
+                    success: function (data) {
+                        serviceSelect.empty();
+                        serviceSelect.append('<option value="" disabled>-- Hizmet Seçiniz --</option>');
+
+                        if (data.length === 0) {
+                            serviceSelect.append('<option value="" disabled>Bu salonda hizmet yok!</option>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                // Eğer bu item, veritabanındaki kayıtlı hizmetse SEÇİLİ yap
+                                var isSelected = (selectedId && item.id == selectedId) ? 'selected' : '';
+                                serviceSelect.append('<option value="' + item.id + '" ' + isSelected + '>' + item.name + '</option>');
+                            });
+                            serviceSelect.prop('disabled', false);
+
+                            // Eğer seçili bir ID gelmediyse (Salon yeni değiştiyse) ilk başa resetle
+                            if (!selectedId) serviceSelect.val("");
+                        }
+                    },
+                    error: function () {
+                        serviceSelect.empty().append('<option>Hata oluştu</option>');
+                    }
+                });
+            }
+        });
+    </script>
+}

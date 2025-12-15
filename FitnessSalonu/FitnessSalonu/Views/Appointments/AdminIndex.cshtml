@@ -5,10 +5,17 @@
 }
 
 <div class="container py-5">
-    <div class="mb-5">
-        <h5 class="text-warning text-uppercase ls-2 mb-2">YÖNETİM PANELİ</h5>
-        <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">RANDEVU <span class="text-warning">LİSTESİ</span></h1>
-        <p class="text-secondary">Bekleyen randevuları buradan onaylayabilir veya reddedebilirsiniz.</p>
+
+    <div class="d-flex justify-content-between align-items-end mb-5">
+        <div>
+            <h5 class="text-warning text-uppercase ls-2 mb-2">YÖNETİM PANELİ</h5>
+            <h1 class="display-5 fw-bold text-white text-uppercase" style="font-family: 'Oswald';">RANDEVU <span class="text-warning">LİSTESİ</span></h1>
+            <p class="text-secondary mb-0">Sistemdeki tüm randevuları buradan yönetebilir ve yeni ekleme yapabilirsiniz.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary btn-lg fw-bold rounded-pill px-4 shadow-lg hover-scale">
+            <i class="fas fa-plus me-2"></i> YENİ RANDEVU EKLE
+        </a>
     </div>
 
     <div class="card bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
@@ -76,3 +83,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.2s;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+</style>

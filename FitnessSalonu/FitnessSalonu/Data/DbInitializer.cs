@@ -23,7 +23,7 @@ namespace FitnessSalonu.Data
             }
 
             // Admin Kullanıcısı (Şifre: sau)
-            var adminEmail = "talha.yildirim3@ogr.sakarya.edu.tr";
+            var adminEmail = "b231210583@sakarya.edu.tr";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
             {
