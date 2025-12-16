@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,34 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAYwIMAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T21:25:15.996Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "FitnessSalonu\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAnwAgAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T21:24:56.582Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"

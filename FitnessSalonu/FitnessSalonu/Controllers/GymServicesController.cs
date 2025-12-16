@@ -88,16 +88,16 @@ namespace FitnessSalonu.Controllers
         }
 
         // POST: GymServices/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DurationMinutes,Price,GymId")] GymService gymService)
         {
-            if (id != gymService.Id)
-            {
-                return NotFound();
-            }
+            if (id != gymService.Id) return NotFound();
+
+            // 🟢 KRİTİK DÜZELTME:
+            // "Gym" nesnesi formdan gelmediği için (sadece ID'si geldiği için) 
+            // ModelState bunu hata olarak algılar. Bu hatayı yoksay diyoruz.
+            ModelState.Remove("Gym");
 
             if (ModelState.IsValid)
             {
@@ -108,17 +108,13 @@ namespace FitnessSalonu.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymServiceExists(gymService.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!GymServiceExists(gymService.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Eğer hala bir hata varsa (örneğin fiyat formatı yanlışsa) listeyi tekrar doldur
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", gymService.GymId);
             return View(gymService);
         }

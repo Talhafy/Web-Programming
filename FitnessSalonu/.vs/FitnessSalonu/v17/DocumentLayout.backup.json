@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|c:\\users\\talha\\onedrive\\desktop\\web-programlama\\fitnesssalonu\\fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6669E1D4-CDDD-4E97-A0CB-CAFA541FE420}|FitnessSalonu\\FitnessSalonu.csproj|solutionrelative:fitnesssalonu\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,14 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DbInitializer.cs",
-              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Data\\DbInitializer.cs",
-              "RelativeDocumentMoniker": "FitnessSalonu\\Data\\DbInitializer.cs",
-              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Data\\DbInitializer.cs",
-              "RelativeToolTip": "FitnessSalonu\\Data\\DbInitializer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T22:50:33.295Z",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\talha\\OneDrive\\Desktop\\Web-Programlama\\FitnessSalonu\\FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "FitnessSalonu\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFYAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T22:20:01.777Z",
               "EditorCaption": ""
             }
           ]
