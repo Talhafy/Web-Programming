@@ -27,7 +27,7 @@ namespace FitnessSalonu.Controllers
             return View(await _context.Gyms.ToListAsync());
         }
 
-        // GET: Gyms/Details/5
+        // GET: Gyms/Detayları
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -39,16 +39,15 @@ namespace FitnessSalonu.Controllers
             return View(gym);
         }
 
-        // GET: Gyms/Create
+        // GET: Gyms/Oluşturma
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Gyms/Create
+        // POST: Gyms/Oluşturma
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // DİKKAT: WorkingHours yerine OpeningTime ve ClosingTime geldi
         public async Task<IActionResult> Create([Bind("Id,Name,Address,OpeningTime,ClosingTime")] Gym gym)
         {
             if (ModelState.IsValid)
@@ -60,7 +59,7 @@ namespace FitnessSalonu.Controllers
             return View(gym);
         }
 
-        // GET: Gyms/Edit/5
+        // GET: Gyms/Düzenleme
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -70,7 +69,7 @@ namespace FitnessSalonu.Controllers
             return View(gym);
         }
 
-        // POST: Gyms/Edit/5
+        // POST: Gyms/Düzenleme
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,OpeningTime,ClosingTime")] Gym gym)
@@ -94,7 +93,7 @@ namespace FitnessSalonu.Controllers
             return View(gym);
         }
 
-        // GET: Gyms/Delete/5
+        // GET: Gyms/Silme
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -106,7 +105,7 @@ namespace FitnessSalonu.Controllers
             return View(gym);
         }
 
-        // POST: Gyms/Delete/5
+        // POST: Gyms/Silme
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

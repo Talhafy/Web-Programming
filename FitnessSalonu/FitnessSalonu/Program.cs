@@ -35,7 +35,7 @@ builder.Services.ConfigureApplicationCookie(options => {
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddHttpClient(); // AI İÇİN ŞART
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

@@ -26,7 +26,7 @@ namespace FitnessSalonu.Controllers
             var appointments = _context.Appointments
                 .Include(a => a.Trainer)
                 .Include(a => a.GymService)
-                    .ThenInclude(gs => gs.Gym) // Salon bilgisini de çek
+                    .ThenInclude(gs => gs.Gym) 
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.AppointmentDate);
 
@@ -58,14 +58,9 @@ namespace FitnessSalonu.Controllers
             return RedirectToAction(nameof(AdminIndex));
         }
 
-        // ==========================================
-        // 🔴 SORUNU ÇÖZEN KISIM BURASI (GET Create)
-        // ==========================================
         // 1. CREATE (GET) METODU
         public IActionResult Create()
         {
-            // ❌ ESKİ KOD (SİLİNDİ): if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
-            // ✅ ARTIK ADMİN DE GİREBİLİR.
 
             ViewData["Gyms"] = _context.Gyms.ToList();
             ViewData["GymServiceId"] = new SelectList(new List<string>());
@@ -79,7 +74,6 @@ namespace FitnessSalonu.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TrainerId,GymServiceId,AppointmentDate")] Appointment appointment)
         {
-            // ❌ ESKİ KOD (SİLİNDİ): if (User.IsInRole("Admin")) return RedirectToAction("AdminIndex");
 
             // Güvenlik Kontrolü
             if (appointment.TrainerId == 0)
@@ -90,7 +84,6 @@ namespace FitnessSalonu.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             appointment.UserId = userId;
 
-            // Eğer Admin ekliyorsa direkt "Onaylandı" yapabiliriz veya "Beklemede" bırakabiliriz.
             // Şimdilik standart "Beklemede" kalsın, admin listeden onaylar.
             appointment.Status = "Beklemede";
 
@@ -105,7 +98,6 @@ namespace FitnessSalonu.Controllers
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
 
-                // 🔄 YÖNLENDİRME MANTIĞI GÜNCELLENDİ
                 // Admin eklediyse -> Admin Paneline dön
                 // Üye eklediyse -> Randevularım sayfasına dön
                 if (User.IsInRole("Admin"))
@@ -150,9 +142,7 @@ namespace FitnessSalonu.Controllers
             return RedirectToAction(nameof(AdminIndex));
         }
 
-        // ==========================================
-        // 🔴 AJAX API (Kutuların Dolması İçin Şart)
-        // ==========================================
+        // API
 
         // 1. Salon seçilince Hizmetleri getirir
         [HttpGet]
@@ -164,26 +154,26 @@ namespace FitnessSalonu.Controllers
                     id = s.Id,
                     name = s.Name,
                     price = s.Price,
-                    durationMinutes = s.DurationMinutes // <--- İŞTE BU EKSİKTİ!
+                    durationMinutes = s.DurationMinutes 
                 })
                 .ToList();
             return Json(services);
         }
 
-        // 2. Hizmet seçilince Hocaları getirir
+        // Hizmet seçilince Hocaları getirir
         [HttpGet]
         public JsonResult GetTrainersByService(int gymId, int serviceId)
         {
-            // YENİ SİSTEM: GymServiceId ile eşleşen hocalar
+            //GymServiceId ile eşleşen hocalar
             var trainers = _context.Trainers
                 .Where(t => t.GymId == gymId && t.GymServiceId == serviceId)
                 .Select(t => new { id = t.Id, fullName = t.FullName })
                 .ToList();
             return Json(trainers);
         }
-    // ============================================================
-        // 🔴 YENİ: SAAT DİLİMLERİNİ HESAPLAYAN AKILLI MOTOR
-        // ============================================================
+
+        //SAAT DİLİMLERİNİ HESAPLAYAN AKILLI MOTOR
+
         [HttpGet]
         public async Task<JsonResult> GetAvailableSlots(int trainerId, int serviceId, string date)
         {
@@ -196,18 +186,18 @@ namespace FitnessSalonu.Controllers
 
             DateTime selectedDate = DateTime.Parse(date);
 
-            // 2. Salonun Açılış/Kapanış Saatlerini Al
-            TimeSpan openTime = TimeSpan.Parse(trainer.Gym.OpeningTime); // Örn: 09:00
-            TimeSpan closeTime = TimeSpan.Parse(trainer.Gym.ClosingTime); // Örn: 22:00
-            int duration = service.DurationMinutes; // Örn: 60 dk
+            //Salonun Açılış/Kapanış Saatlerini Çek
+            TimeSpan openTime = TimeSpan.Parse(trainer.Gym.OpeningTime); 
+            TimeSpan closeTime = TimeSpan.Parse(trainer.Gym.ClosingTime); 
+            int duration = service.DurationMinutes;
 
-            // 3. O Gün O Hoca İçin Alınmış Randevuları Bul
+            // Hoca İçin Alınmış Randevuları Bul
             var existingAppointments = await _context.Appointments
                 .Where(a => a.TrainerId == trainerId && a.AppointmentDate.Date == selectedDate.Date)
-                .Select(a => a.AppointmentDate.TimeOfDay) // Sadece saat kısmını al
+                .Select(a => a.AppointmentDate.TimeOfDay) // Sadece saat kısmı
                 .ToListAsync();
 
-            // 4. Slotları Oluştur
+            // Slotları Oluşturma
             List<string> availableSlots = new List<string>();
             TimeSpan currentSlot = openTime;
 
@@ -218,8 +208,8 @@ namespace FitnessSalonu.Controllers
                 // Eğer oluşturduğumuz bu saat diliminde veritabanında kayıt varsa, listeye ekleme.
                 bool isTaken = false;
 
-                // Basit mantık: Eğer o saatte tam başlayan bir randevu varsa doludur.
-                // (Daha gelişmiş mantıkta aralık kontrolü de yapılabilir ama bu ödev için yeterli)
+                //Eğer o saatte tam başlayan bir randevu varsa doludur.
+ 
                 foreach (var appointmentTime in existingAppointments)
                 {
                     // Eğer randevu saati ile şu anki slot aynıysa veya çakışıyorsa
@@ -232,7 +222,7 @@ namespace FitnessSalonu.Controllers
 
                 if (!isTaken)
                 {
-                    // Saat formatını güzelleştir (09:00 gibi)
+                    // Saat formatı
                     availableSlots.Add(currentSlot.ToString(@"hh\:mm"));
                 }
 

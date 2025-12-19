@@ -5,7 +5,7 @@
     {
         public double Weight { get; set; } // Kilo
         public double Height { get; set; } // Boy
-        public string Goal { get; set; }   // Hedef (Kilo verme vb.)
+        public string Goal { get; set; }   // Hedef 
         public string Gender { get; set; } // Cinsiyet
     }
 

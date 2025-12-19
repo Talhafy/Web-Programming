@@ -168,7 +168,7 @@
                 $("#SlotSection").slideUp();
             });
 
-            // 4. Tarih Seçilince -> SLOTLARI GETİR (EN ÖNEMLİ KISIM)
+            // 4. Tarih Seçilince -> SLOTLARI GETİR
             $("#DateSelector").change(function () {
                 var date = $(this).val();
                 var trainerId = $("#TrainerSelector").val();
@@ -202,21 +202,19 @@
             });
         });
 
-        // Slot Seçme Fonksiyonu
+        // Slot Seçme 
         function selectSlot(element, time) {
             // Görsel seçim
             $(".time-slot").removeClass("selected");
             $(element).addClass("selected");
 
-            // Değeri kaydet
+            //kaydet
             $("#SelectedTime").val(time);
 
-            // Tarih + Saat birleştirip inputa yaz (Backend bunu bekliyor)
             var date = $("#DateSelector").val();
             var fullDateTime = date + "T" + time;
             $("#RealAppointmentDate").val(fullDateTime);
 
-            // Butonu aktif et
             $("#SubmitBtn").prop('disabled', false);
         }
     </script>

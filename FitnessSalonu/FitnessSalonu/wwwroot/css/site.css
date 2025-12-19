@@ -1,7 +1,7 @@
 /* GENEL AYARLAR */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa; /* Hafif gri zemin */
+    background-color: #f8f9fa; 
     color: #333;
 }
 
@@ -15,19 +15,19 @@ a {
     text-decoration: none !important;
 }
 
-/* HERO BÖLÜMÜ (Dev Giriş Resmi) */
+/* HERO BÖLÜMÜ */
 .hero-header {
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Resmi sabitler, modern hissettirir */
-    height: 90vh; /* Ekranın %90'ını kaplar */
+    background-attachment: fixed;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
-    margin-top: -85px; /* Navbar'ın altına girmesi için */
+    margin-top: -85px; 
 }
 
 .hero-title {
@@ -45,7 +45,6 @@ a {
     color: #e0e0e0;
 }
 
-/* KARTLAR VE EFEKTLER */
 .feature-box {
     background: white;
     padding: 2rem;

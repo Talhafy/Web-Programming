@@ -12,7 +12,7 @@ namespace FitnessSalonu.Controllers
             _signInManager = signInManager;
         }
 
-        // ÇIKIŞ YAPMA İŞLEMİ (Burada biz yönetiyoruz)
+        // ÇIKIŞ YAPMA İŞLEMİ
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

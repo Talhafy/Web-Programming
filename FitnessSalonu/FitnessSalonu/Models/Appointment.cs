@@ -11,7 +11,6 @@ namespace FitnessSalonu.Models
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        // YENİ SÜTUN: Randevu Durumu (Beklemede, Onaylandı, Reddedildi)
         public string Status { get; set; } = "Beklemede";
 
         // İLİŞKİLER

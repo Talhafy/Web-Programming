@@ -24,14 +24,14 @@ namespace FitnessSalonu.Controllers
         // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            // Hem Salonu hem de Hizmeti (Uzmanlığı) dahil ediyoruz
+            // Hem Salonu hem de Hizmeti dahil ediyoruz
             var trainers = _context.Trainers
                 .Include(t => t.Gym)
                 .Include(t => t.GymService);
             return View(await trainers.ToListAsync());
         }
 
-        // GET: Trainers/Details/5
+        // GET: Trainers/Detaylar
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,21 +51,19 @@ namespace FitnessSalonu.Controllers
             return View(trainer);
         }
 
-        // GET: Trainers/Create
+        // GET: Trainers/Oluşturma
         public IActionResult Create()
         {
-            // Sadece Salonları gönderiyoruz. Hizmetler, salon seçilince AJAX ile gelecek.
+            // Sadece Salonları gönderiyoruz. Hizmetler, salon seçilince otomatik gelecek.
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name");
             return View();
         }
 
-        // POST: Trainers/Create
+        // POST: Trainers/Oluşturma
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // DİKKAT: Expertise YOK, GymServiceId VAR. WorkingHours EKLENDİ.
         public async Task<IActionResult> Create([Bind("Id,FullName,WorkingHours,GymId,GymServiceId")] Trainer trainer)
         {
-            // İlişkili tablo hatalarını yoksay (Validasyon için)
             ModelState.Remove("Gym");
             ModelState.Remove("GymService");
 
@@ -81,8 +79,7 @@ namespace FitnessSalonu.Controllers
             return View(trainer);
         }
 
-        // GET: Trainers/Edit/5
-        // GET: Trainers/Edit/5
+        // GET: Trainers/Düzenleme
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -91,13 +88,13 @@ namespace FitnessSalonu.Controllers
             if (trainer == null) return NotFound();
 
             // Sadece Salon listesini gönderiyoruz.
-            // Hizmet listesini JavaScript (AJAX) ile sayfa açılınca dolduracağız.
+            // Hizmet listesini JavaScript ile sayfa açılınca dolduracak
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", trainer.GymId);
 
             return View(trainer);
         }
 
-        // POST: Trainers/Edit/5
+        // POST: Trainers/Düzenleme
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,WorkingHours,GymId,GymServiceId")] Trainer trainer)
@@ -134,7 +131,7 @@ namespace FitnessSalonu.Controllers
             return View(trainer);
         }
 
-        // GET: Trainers/Delete/5
+        // GET: Trainers/Silme
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +151,7 @@ namespace FitnessSalonu.Controllers
             return View(trainer);
         }
 
-        // POST: Trainers/Delete/5
+        // POST: Trainers/Silme
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -173,10 +170,8 @@ namespace FitnessSalonu.Controllers
         {
             return _context.Trainers.Any(e => e.Id == id);
         }
+        //API
 
-        // ============================================================
-        // 🔴 AJAX API (BU KISIM EKLENDİ)
-        // ============================================================
         [HttpGet]
         public JsonResult GetServicesByGym(int gymId)
         {

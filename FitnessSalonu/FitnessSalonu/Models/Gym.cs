@@ -12,7 +12,7 @@ namespace FitnessSalonu.Models
         [Required]
         public string Address { get; set; }
 
-        // YENİ: Açılış ve Kapanış Saatleri (String olarak tutmak en kolayıdır: "09:00")
+        // YENİ: Açılış ve Kapanış Saatleri (String)
         [Required]
         public string OpeningTime { get; set; } = "09:00";
 

@@ -12,7 +12,7 @@ namespace FitnessSalonu.Data
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            // Rolleri Oluştur
+            // Rolleri Oluşturma
             string[] roleNames = { "Admin", "Member" };
             foreach (var roleName in roleNames)
             {
@@ -22,7 +22,7 @@ namespace FitnessSalonu.Data
                 }
             }
 
-            // Admin Kullanıcısı (Şifre: sau)
+            // Admin Kullanıcısı
             var adminEmail = "b231210583@sakarya.edu.tr";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
@@ -34,7 +34,6 @@ namespace FitnessSalonu.Data
                     EmailConfirmed = true
                 };
 
-                // İŞTE BURASI: Şifreyi 'sau' yaptık
                 await userManager.CreateAsync(newAdmin, "sau");
                 await userManager.AddToRoleAsync(newAdmin, "Admin");
             }

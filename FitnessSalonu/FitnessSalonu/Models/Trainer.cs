@@ -8,7 +8,7 @@ namespace FitnessSalonu.Models
         public int Id { get; set; }
 
         [Required]
-        public string? FullName { get; set; } // '?' işareti null uyarısını çözer
+        public string? FullName { get; set; } 
 
         public int WorkingHours { get; set; } = 8;
 

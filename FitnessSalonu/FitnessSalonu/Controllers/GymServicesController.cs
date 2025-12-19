@@ -26,7 +26,7 @@ namespace FitnessSalonu.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: GymServices/Details/5
+        // GET: GymServices/Detaylar
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,16 +45,14 @@ namespace FitnessSalonu.Controllers
             return View(gymService);
         }
 
-        // GET: GymServices/Create
+        // GET: GymServices/Oluşturma
         public IActionResult Create()
         {
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name");
             return View();
         }
 
-        // POST: GymServices/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: GymServices/Oluşturma
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,DurationMinutes,Price,GymId")] GymService gymService)
@@ -70,7 +68,7 @@ namespace FitnessSalonu.Controllers
             return View(gymService);
         }
 
-        // GET: GymServices/Edit/5
+        // GET: GymServices/Düzenleme
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,16 +85,13 @@ namespace FitnessSalonu.Controllers
             return View(gymService);
         }
 
-        // POST: GymServices/Edit/5
+        // POST: GymServices/Düzenleme
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DurationMinutes,Price,GymId")] GymService gymService)
         {
             if (id != gymService.Id) return NotFound();
 
-            // 🟢 KRİTİK DÜZELTME:
-            // "Gym" nesnesi formdan gelmediği için (sadece ID'si geldiği için) 
-            // ModelState bunu hata olarak algılar. Bu hatayı yoksay diyoruz.
             ModelState.Remove("Gym");
 
             if (ModelState.IsValid)
@@ -114,12 +109,12 @@ namespace FitnessSalonu.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Eğer hala bir hata varsa (örneğin fiyat formatı yanlışsa) listeyi tekrar doldur
+            // Eğer hala bir hata varsa listeyi tekrar doldur
             ViewData["GymId"] = new SelectList(_context.Gyms, "Id", "Name", gymService.GymId);
             return View(gymService);
         }
 
-        // GET: GymServices/Delete/5
+        // GET: GymServices/Silme
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,7 +133,7 @@ namespace FitnessSalonu.Controllers
             return View(gymService);
         }
 
-        // POST: GymServices/Delete/5
+        // POST: GymServices/Silme
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

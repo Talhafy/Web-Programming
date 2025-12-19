@@ -21,15 +21,15 @@ namespace FitnessSalonu.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetTrainers()
         {
-            // Artık Expertise (string) yok, GymService.Name (ilişki) var.
+            //GymService.Name ile ilişki var.
             var trainers = await _context.Trainers
-                .Include(t => t.Gym)        // Salon bilgisini dahil et
-                .Include(t => t.GymService) // Hizmet (Uzmanlık) bilgisini dahil et
+                .Include(t => t.Gym)        // Salon bilgisi
+                .Include(t => t.GymService) // Hizmet bilgisi
                 .Select(t => new
                 {
                     Id = t.Id,
                     FullName = t.FullName,
-                    // Eğer Hizmet atanmamışsa hata vermesin diye kontrol koyuyoruz:
+                    // Eğer Hizmet atanmamışsa hata vermesin
                     Expertise = t.GymService != null ? t.GymService.Name : "Belirtilmemiş",
                     GymName = t.Gym != null ? t.Gym.Name : "Belirtilmemiş",
                     WorkingHours = t.WorkingHours
@@ -40,7 +40,7 @@ namespace FitnessSalonu.Controllers
         }
 
         // 2. FİLTRELEME YAPAN API (Uzmanlık Alanına Göre)
-        // İstek Adresi: GET /api/TrainersApi/search?skill=Yoga
+        // İstek Adresi: GET /api/TrainersApi/search?skill
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<object>>> SearchTrainers(string skill)
         {

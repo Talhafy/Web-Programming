@@ -37,7 +37,9 @@
                     <h4 class="mb-0 fw-bold">Beslenme Planı</h4>
                 </div>
                 <div class="card-body p-4 bg-white">
-                    <p class="card-text fs-5 lh-lg" style="white-space: pre-line; color: #444;">@Model.DietPlan</p>
+                    <div class="card-text fs-5 lh-lg" style="color: #444;">
+                        @Html.Raw(Model.DietPlan)
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,7 +51,9 @@
                     <h4 class="mb-0 fw-bold">Antrenman Programı</h4>
                 </div>
                 <div class="card-body p-4 bg-white">
-                    <p class="card-text fs-5 lh-lg" style="white-space: pre-line; color: #444;">@Model.WorkoutPlan</p>
+                    <div class="card-text fs-5 lh-lg" style="color: #444;">
+                        @Html.Raw(Model.WorkoutPlan)
+                    </div>
                 </div>
             </div>
         </div>
