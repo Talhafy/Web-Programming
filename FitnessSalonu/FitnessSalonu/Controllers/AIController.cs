@@ -21,7 +21,7 @@ namespace FitnessSalonu.Controllers
             double bmi = request.Weight / (heightInMeters * heightInMeters);
             string bmiStatus = bmi < 18.5 ? "Zayıf" : bmi < 25 ? "Normal" : bmi < 30 ? "Fazla Kilolu" : "Obezite Riski";
 
-            // 2. Prompt Hazırlama
+            //Prompt Hazırlama
             string prompt = $@"
                 Sen uzman bir spor koçusun (Model: Gemini 2.5 Flash).
                 Kullanıcı: {request.Gender}, {request.Weight}kg, {request.Height}cm.
@@ -31,7 +31,7 @@ namespace FitnessSalonu.Controllers
                 GÖREVİN:
                 Kullanıcı için çok motive edici bir diyet ve antrenman programı hazırla.
                 
-                ÖNEMLİ KURAL (ANTRENMAN İÇİN):
+                ÖNEMLİ KURAL (Antrenman için):
                 Antrenman programında yazdığın HER hareketin altına, o hareketin görselini getirecek şu HTML kodunu ekle:
                 <br><img src='https://tse4.mm.bing.net/th?q=HAREKET_ISMI_BURAYA+gym+workout&w=200&h=200&c=7&rs=1' style='width:100%; max-width:200px; border-radius:10px; margin-top:5px; margin-bottom:15px;'><br>
                 
@@ -54,7 +54,7 @@ namespace FitnessSalonu.Controllers
                     contents: prompt
                 );
 
-                // 🔴 5. CEVABI ALMA
+                //CEVABI ALMA
                 string aiText = response.Candidates[0].Content.Parts[0].Text;
 
                 if (string.IsNullOrEmpty(aiText))
