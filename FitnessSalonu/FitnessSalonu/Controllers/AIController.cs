@@ -45,7 +45,7 @@ namespace FitnessSalonu.Controllers
             ";
             try
             {
-                string apiKey = "AIzaSyCQUz_xKGTi8FDyN6aUHUqTH8P-uWNlWD4";
+                string apiKey = "";
 
                 var client = new Client(apiKey: apiKey);
 
